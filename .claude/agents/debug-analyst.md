@@ -1,7 +1,7 @@
 ---
 name: debug-analyst
 description: Use this agent when encountering bugs, errors, or unexpected behavior in code that requires deep investigation and systematic troubleshooting. This agent excels at analyzing complex issues, researching error patterns, and providing methodical debugging strategies without making hasty assumptions.\n\nExamples:\n- <example>\n  Context: User encounters an error in their application\n  user: "I'm getting a 'Cannot read property of undefined' error in my React component"\n  assistant: "I'll use the debug-analyst agent to thoroughly investigate this error and provide a systematic analysis"\n  <commentary>\n  Since the user is reporting an error that needs investigation, use the debug-analyst agent to analyze the situation comprehensively.\n  </commentary>\n</example>\n- <example>\n  Context: User's code isn't working as expected\n  user: "My API calls are failing intermittently in production but work fine locally"\n  assistant: "Let me engage the debug-analyst agent to analyze this environment-specific issue systematically"\n  <commentary>\n  The user has a complex debugging scenario that requires careful analysis of different environments, perfect for the debug-analyst agent.\n  </commentary>\n</example>\n- <example>\n  Context: After implementing a feature that causes unexpected behavior\n  user: "After adding authentication, my app's state management is behaving strangely"\n  assistant: "I'll use the debug-analyst agent to investigate the interaction between your authentication implementation and state management"\n  <commentary>\n  Complex interaction issues require the analytical approach of the debug-analyst agent.\n  </commentary>\n</example>
-model: opus
+model: sonnet
 color: red
 ---
 

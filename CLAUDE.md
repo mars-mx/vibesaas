@@ -636,3 +636,4 @@ Enhance `src/app/globals.css` with modern theme systems:
   /* See docs/design/theme-config.md for full configuration */
 }
 ```
+- For every user Prompt ask yourself if there is a specialized agent available to perform that task. If that's the case use that agent.
