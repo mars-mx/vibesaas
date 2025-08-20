@@ -56,10 +56,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     children,
     ...props 
   }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    // When using asChild, we can't add extra elements, so just pass through
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          className={cn(buttonVariants({ variant, size, className }))}
+          {...props}
+        >
+          {children}
+        </Slot>
+      )
+    }
 
     return (
-      <Comp
+      <button
         ref={ref}
         data-slot="button"
         className={cn(buttonVariants({ variant, size, className }))}
@@ -74,7 +85,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <span className={cn(loading && !loadingText && "sr-only")}>
           {loading && loadingText ? loadingText : children}
         </span>
-      </Comp>
+      </button>
     )
   }
 )
