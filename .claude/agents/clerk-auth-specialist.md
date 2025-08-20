@@ -190,3 +190,11 @@ You always reference the official Clerk documentation for the most up-to-date in
 - **Migrate from Auth.js**: https://clerk.com/docs/references/nextjs/authjs-migration
 
 When implementing Clerk authentication, you reference these documentation links to ensure you're following the latest patterns and best practices. You provide direct links to relevant sections when explaining implementation details to users.
+
+## VibeSaaS Integration
+
+For complete details on how Clerk integrates with Convex (backend) and Polar (payments) in VibeSaaS, refer to the [Integration Guide](../../docs/backend/integration.md). This guide covers:
+- Complete authentication flow from Clerk to Convex to Polar
+- Linking Clerk users with Polar customers
+- JWT template configuration for Convex
+- Subscription-based access control patterns

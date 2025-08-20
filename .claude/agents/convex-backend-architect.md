@@ -156,9 +156,18 @@ Your ultimate goal is to create Convex backends that are not just functional, bu
 ### Components & Extensions
 - **Agents Getting Started**: https://docs.convex.dev/agents/getting-started
 - **Messages**: https://docs.convex.dev/agents/messages
+- **Convex-Polar Component**: https://www.convex.dev/components/polar - Deep Polar integration for payments
 
 ### API Reference & Resources
 - **API Reference**: https://docs.convex.dev/api
 - **Stack (Blog & Examples)**: https://stack.convex.dev
 - **GitHub**: https://github.com/get-convex
 - **Discord Community**: For support and discussions
+
+## VibeSaaS Integration Architecture
+
+For the complete integration pattern between Clerk (authentication), Convex (backend), and Polar (payments) in VibeSaaS, see the [Integration Guide](../../docs/backend/integration.md). This covers:
+- Identity management from Clerk through Convex
+- Subscription data synchronization with Polar
+- Webhook handling patterns
+- Real-time reactive updates

@@ -35,7 +35,7 @@ This is a Next.js 15 application with App Router, designed as a SaaS boilerplate
 - **React 19** 
 - **TypeScript** with strict mode enabled
 - **Tailwind CSS v4** for styling
-- **Polar** integration for payments (@polar-sh/nextjs)
+- **Polar** integration for payments (@convex-dev/polar)
 - **Zod** for schema validation and type-safe parsing
 - **Path alias**: `@/*` maps to `./src/*`
 
@@ -109,13 +109,68 @@ export const createUser = zMutation({
 4. Use convex-helpers' `zodToConvex` for converting Zod schemas to Convex validators when needed
 
 ### Polar Payments
-Polar integration is included for handling payments and subscriptions. Configure the following environment variables:
-- `POLAR_API_KEY`
-- `POLAR_ORGANIZATION_ID`
-- `POLAR_WEBHOOK_SECRET`
+
+VibeSaaS uses the `@convex-dev/polar` component for deep integration between Polar and Convex:
+
+```bash
+# Install the component
+npm install @convex-dev/polar
+
+# Configure in convex.config.ts
+import polar from "@convex-dev/polar/convex.config";
+app.use(polar);
+
+# Set Polar organization token
+npx convex env set POLAR_ORGANIZATION_TOKEN xxxxx
+```
+
+**Key Features:**
+- Automatic subscription synchronization via webhooks
+- Built-in subscription tracking per user
+- OAuth integration for customer authentication  
+- Server-side checkout and portal link generation
+- Real-time subscription status updates
+
+**Usage Examples:**
+```typescript
+// Get user's current subscription
+const subscription = await polar.getCurrentSubscription(ctx, {
+  userId: user._id
+});
+
+// Generate checkout link
+const checkoutUrl = await polar.generateCheckoutLink(ctx, {
+  productId: "prod_xxxxx",
+  userId: user._id
+});
+
+// Change subscription plan
+await polar.changeCurrentSubscription(ctx, {
+  userId: user._id,
+  productId: "prod_new_plan"
+});
+
+// Cancel subscription
+await polar.cancelCurrentSubscription(ctx, {
+  userId: user._id
+});
+
+// Generate customer portal URL
+const portalUrl = await polar.generateCustomerPortalUrl(ctx, {
+  userId: user._id
+});
+```
+
+**Setup Requirements:**
+1. Create products in Polar dashboard
+2. Configure webhook endpoint for subscription sync
+3. Implement user information retrieval function
+4. Set up OAuth app in Polar (if using OAuth)
+
+For complete integration details with Clerk authentication, see [Integration Guide](./docs/backend/integration.md).
 
 ### Environment Variables
-Create `.env.local` with required variables for Convex, Polar, Resend (email), and app configuration as specified in the README.
+Create `.env.local` with required variables for Convex, Resend (email), and app configuration. Polar tokens are set via Convex environment variables.
 
 ## Development Workflow
 
@@ -258,32 +313,49 @@ export const updateBillingRecord = internalMutation({...});
 Handle external API calls with action services:
 
 ```typescript
-// convex/services/external/stripe.service.ts
+// convex/services/external/polar.service.ts
 import { action, internal } from "../../_generated/server";
 import { v } from "convex/values";
 
-export class StripeService {
-  static processPayment = action({
+export class PolarService {
+  static createCheckout = action({
     args: {
-      amount: v.number(),
-      customerId: v.string(),
+      productId: v.string(),
+      userId: v.id("users"),
+      successUrl: v.string(),
     },
     handler: async (ctx, args) => {
-      // Call external Stripe API
-      const payment = await stripe.paymentIntents.create({
-        amount: args.amount,
-        customer: args.customerId,
-        currency: "usd",
+      // When using Convex-Polar component
+      const checkoutUrl = await ctx.runAction(internal.polar.generateCheckoutLink, {
+        productId: args.productId,
+        userId: args.userId,
+        successUrl: args.successUrl,
       });
       
-      // Update database via internal mutation
-      await ctx.runMutation(internal.billing.updateBillingRecord, {
-        paymentId: payment.id,
-        customerId: args.customerId,
-        amount: args.amount,
+      return checkoutUrl;
+    }
+  });
+  
+  static syncSubscription = action({
+    args: {
+      userId: v.id("users"),
+    },
+    handler: async (ctx, args) => {
+      // Sync subscription status from Polar
+      const subscription = await ctx.runQuery(internal.polar.getCurrentSubscription, {
+        userId: args.userId,
       });
       
-      return payment;
+      // Update user record with subscription status
+      if (subscription) {
+        await ctx.runMutation(internal.users.updateSubscriptionStatus, {
+          userId: args.userId,
+          status: subscription.status,
+          productId: subscription.productId,
+        });
+      }
+      
+      return subscription;
     }
   });
 }
@@ -332,12 +404,13 @@ convex/
 │   │   ├── _internal.ts # Internal functions
 │   │   ├── schemas.ts  # Zod schemas
 │   │   └── validator.ts # Validation logic
-│   ├── billing/
+│   ├── billing/        # Legacy billing (if not using Polar)
+│   ├── polar/          # Polar integration with Convex
 │   └── users/
 ├── services/           # Business logic services
 │   ├── base.service.ts
 │   └── external/       # External API services
-│       ├── stripe.service.ts
+│       ├── polar.service.ts
 │       └── resend.service.ts
 ├── repositories/       # Data access layer
 │   ├── base.repository.ts
@@ -416,6 +489,7 @@ When working on this codebase, prioritize **long-term maintainability over short
 - **Shadcn UI**: https://ui.shadcn.com/docs - Component library and design system
 - **Polar**: https://docs.polar.sh/introduction - Payment and subscription management
 - **Convex**: https://docs.convex.dev/home - Real-time backend and database
+- **Convex-Polar Component**: https://www.convex.dev/components/polar - Deep Polar integration for Convex
 - **Clerk**: https://clerk.com/docs - Authentication and user management
 - **Zod**: https://zod.dev/ - TypeScript-first schema validation with static type inference
 - **Tailwind CSS v4**: https://tailwindcss.com/docs/styling-with-utility-classes - Utility-first CSS framework
@@ -433,15 +507,47 @@ Before implementing features or working with any external service:
 4. Verify API signatures and configuration options
 5. Look for code examples specific to the library version in use
 
-## Component Development Guidelines
+## Frontend Development Guidelines
 
-### Use Shadcn UI Components
+### Component Development
 
-**IMPORTANT**: Always use existing Shadcn UI components instead of creating custom components from scratch.
+**ALWAYS use shadcn/ui components** - Check https://ui.shadcn.com/docs/components before creating any UI component. Install with CLI, extend rather than recreate. Components go in `src/components/ui/`.
 
-1. **Check Shadcn first**: Before creating any UI component, check https://ui.shadcn.com/docs/components to see if a suitable component already exists
-2. **Install and use**: If a Shadcn component fits the need, install it using the CLI and customize it as needed
-3. **Extend, don't recreate**: If you need to modify a Shadcn component, extend or wrap it rather than building from scratch
-4. **Consistent design system**: Using Shadcn ensures consistent design patterns and accessibility features across the application
+### Design System Standards
 
-Components should be placed in `src/components/ui/` after installation from Shadcn.
+Follow these core principles for all frontend development:
+
+1. **Accessibility-First** (WCAG 2.2 Level AA)
+   - Minimum contrast ratios: 4.5:1 (normal text), 3:1 (large text)
+   - All interactive elements keyboard accessible
+   - Focus indicators: `focus-visible:ring-2`
+   - Touch targets: minimum 24x24px
+   - See [Accessibility Guide](./docs/design/accessibility.md)
+
+2. **Performance Targets** 
+   - LCP < 2.5s, INP < 200ms, CLS < 0.1
+   - JavaScript bundles < 200KB gzipped
+   - Use Next.js Image, lazy loading, code splitting
+   - See [Performance Guide](./docs/design/performance.md)
+
+3. **Responsive Design**
+   - Mobile-first approach (start at 375px)
+   - Use Tailwind breakpoints: `sm:` `md:` `lg:` `xl:` `2xl:`
+   - Fluid typography with CSS `clamp()`
+   - See [Responsive Guide](./docs/design/responsive.md)
+
+4. **Component Patterns**
+   - Use Class Variance Authority (CVA) for variants
+   - Follow shadcn/ui patterns and conventions
+   - Maintain consistent spacing and radius systems
+   - See [Component Patterns](./docs/design/components.md)
+
+### CSS Theme Configuration
+
+Enhance `src/app/globals.css` with modern theme systems:
+```css
+@theme {
+  /* Extend with spacing, radius, and typography systems */
+  /* See docs/design/theme-config.md for full configuration */
+}
+```

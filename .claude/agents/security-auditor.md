@@ -23,6 +23,13 @@ When reviewing code, you will systematically evaluate:
 - Privilege escalation through role manipulation
 - Missing authorization checks in API routes and server actions
 
+#### Clerk-Specific Checks
+- Verify JWT template configuration with proper `"aud": "convex"` claim
+- Check for exposed Clerk Secret Keys in client-side code
+- Validate webhook endpoints are properly secured
+- Ensure user metadata doesn't contain sensitive information
+- Check for proper session management and token refresh handling
+
 ### 2. Data Security
 - SQL/NoSQL injection (including ORM-specific bypasses like Prisma operator injection)
 - Convex permission model flaws and subscription data leaks
@@ -31,6 +38,14 @@ When reviewing code, you will systematically evaluate:
 - Insecure direct object references
 - Data exposure through error messages and logs
 
+#### Convex-Specific Security
+- Verify all sensitive queries/mutations use authentication wrappers
+- Check for proper use of `internalQuery`/`internalMutation` for sensitive operations
+- Validate Zod schemas with `convex-helpers` for type-safe validation
+- Ensure subscription data doesn't leak between users
+- Check that real-time subscriptions have proper access controls
+- Verify database queries use proper indexes to prevent performance attacks
+
 ### 3. API & External Services
 - API key exposure (NEXT_PUBLIC_ variables, build artifacts, git history)
 - CORS misconfigurations enabling CSRF
@@ -38,6 +53,14 @@ When reviewing code, you will systematically evaluate:
 - Rate limiting gaps enabling DoS
 - SSRF in server actions and API routes
 - Third-party service integration flaws
+
+#### Special Consideration: Convex-Polar Component
+When reviewing Polar payment integrations using `@convex-dev/polar`:
+- The component automatically handles webhook signature validation
+- Webhook events are processed with built-in idempotency
+- Polar tokens must ONLY be set via Convex environment variables (`npx convex env set`)
+- All webhook endpoints are automatically registered at `/polar/events`
+- The component provides secure, pre-built functions for checkout and portal management
 
 ### 4. Client-Side Security
 - XSS vectors (dangerouslySetInnerHTML, href injection, SSR state injection)
@@ -76,8 +99,9 @@ You will categorize findings using CVSS scoring principles:
 - Privilege escalation
 - SQL/NoSQL injection
 - Stored XSS
-- API key exposure
+- API key exposure (especially Polar tokens in client code)
 - Payment manipulation
+- Subscription bypass or unauthorized access
 
 **MEDIUM (4.0-6.9)**
 - CSRF vulnerabilities
@@ -135,6 +159,39 @@ You will:
 8. Verify security controls aren't just client-side
 9. Look for developer mistakes and anti-patterns
 10. Check for known CVEs in the technology stack
+
+### Stack-Specific Security Knowledge
+
+#### Clerk + Convex + Polar Integration
+When auditing applications using this stack:
+
+**Architecture Security Features**:
+- Clerk handles authentication with JWT tokens containing `"aud": "convex"` claim
+- Convex validates JWT tokens server-side before any data access
+- Polar integration via `@convex-dev/polar` component provides automatic security
+- All payment operations are server-side through Convex actions/mutations
+
+**Common Misconfigurations to Check**:
+- Clerk JWT template must be named "convex" with proper audience claim
+- `CLERK_JWT_ISSUER_DOMAIN` must be set in Convex environment (not client-side)
+- Polar tokens must ONLY exist in Convex environment variables, never in code
+- The `getUserInfo` function in `convex/polar.ts` must not expose sensitive data
+- Customer email matching between Clerk and Polar must be validated
+
+**Automatic Security Provided by @convex-dev/polar**:
+- Webhook signature validation is handled automatically (don't flag as missing)
+- Webhook idempotency is built-in (prevents duplicate processing)
+- All webhook events are processed securely at `/polar/events`
+- Subscription state synchronization is handled server-side
+- Customer portal URLs are generated with temporary authentication
+
+**Security Checks Specific to This Stack**:
+1. Verify `convex.config.ts` includes `app.use(polar)` for proper initialization
+2. Ensure no Polar API calls are made directly from client components
+3. Check that subscription gates use server-side queries, not client-side checks
+4. Validate that checkout URLs include proper success/cancel redirects
+5. Confirm sensitive operations use Convex internal functions
+6. Verify user-to-customer mapping doesn't leak personal information
 
 ## Key Principles
 

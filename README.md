@@ -17,9 +17,9 @@ Stop building auth, payments, and UI from scratch. Start shipping.
 ### Core Stack
 - 🎯 **Next.js 14** with App Router
 - 🔥 **Convex** for real-time database & backend
-- 💳 **Polar** integration for payments
+- 💳 **Polar** integration for payments via Convex component
 - 🎨 **shadcn/ui** component library
-- 🔐 **Auth** with Convex Auth (multiple providers)
+- 🔐 **Clerk** for authentication (80+ OAuth providers)
 - 📧 **Resend** for transactional emails
 - 🎭 **TypeScript** throughout
 
@@ -74,10 +74,8 @@ Create a `.env.local` file with:
 CONVEX_DEPLOYMENT=
 NEXT_PUBLIC_CONVEX_URL=
 
-# Polar
-POLAR_API_KEY=
-POLAR_ORGANIZATION_ID=
-POLAR_WEBHOOK_SECRET=
+# Polar (set via Convex environment)
+# npx convex env set POLAR_ORGANIZATION_TOKEN xxxxx
 
 # Resend (Email)
 RESEND_API_KEY=
@@ -113,7 +111,45 @@ export const createUser = zCustomMutation({
 });
 ```
 
-### 5. Deploy to Vercel
+### 5. Polar Integration with Convex
+
+VibeSaaS uses the `@convex-dev/polar` component for deep integration between Polar payments and Convex:
+
+```bash
+# Install the Convex Polar component
+npm install @convex-dev/polar
+
+# Configure in convex.config.ts
+import polar from "@convex-dev/polar/convex.config";
+app.use(polar);
+
+# Set your Polar organization token
+npx convex env set POLAR_ORGANIZATION_TOKEN xxxxx
+```
+
+Key features:
+- Automatic subscription synchronization via webhooks
+- Built-in subscription tracking per user
+- OAuth integration for customer authentication
+- Server-side checkout and portal link generation
+- Real-time subscription status updates
+
+```typescript
+// Example: Get user's subscription
+const subscription = await polar.getCurrentSubscription(ctx, {
+  userId: user._id
+});
+
+// Example: Generate checkout link
+const checkoutUrl = await polar.generateCheckoutLink(ctx, {
+  productId: "prod_xxxxx",
+  userId: user._id
+});
+```
+
+**Authentication Integration**: VibeSaaS uses Clerk for authentication, which integrates seamlessly with Convex and Polar. See the [Integration Guide](./docs/backend/integration.md) for details on the complete auth-to-payment flow.
+
+### 6. Deploy to Vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/vibesaas)
 
@@ -268,10 +304,12 @@ convex/
 - Service layer architecture with repositories
 
 ### Payments
-- Polar integration
+- Polar integration via Convex component
 - Subscription management
 - Usage-based billing support
 - Webhook handling
+- OAuth customer authentication
+- Customer portal generation
 
 ### Deployment
 - Optimized for Vercel
@@ -302,9 +340,27 @@ npm run test:coverage
 
 See the [Testing Guide](./docs/testing/basics.md) for comprehensive documentation on writing and running tests.
 
+## 🎨 Frontend Best Practices
+
+VibeSaaS follows modern web development standards for 2025:
+
+### Design System
+- **Accessibility-First**: WCAG 2.2 Level AA compliant
+- **Performance Optimized**: Core Web Vitals targets met
+- **Mobile-First**: Responsive from 375px up
+- **Component-Driven**: shadcn/ui with CVA patterns
+
+### Quick Links
+- [Accessibility Guide](./docs/design/accessibility.md) - WCAG compliance & testing
+- [Performance Guide](./docs/design/performance.md) - Core Web Vitals optimization
+- [Responsive Design](./docs/design/responsive.md) - Mobile-first patterns
+- [Component Patterns](./docs/design/components.md) - shadcn/ui architecture
+- [Theme Configuration](./docs/design/theme-config.md) - CSS custom properties
+
 ## 📚 Documentation
 
 - [Setup Guide](./docs/setup.md)
+- [Clerk + Convex + Polar Integration](./docs/backend/integration.md)
 - [Testing Guide](./docs/testing/basics.md)
 - [Claude Commands](./CLAUDE.md)
 - [API Reference](./docs/api.md)

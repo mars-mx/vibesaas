@@ -18,9 +18,9 @@ print_color() {
 # Function to print header
 print_header() {
     echo
-    print_color "$BLUE" "================================"
-    print_color "$BLUE" "   Agent Model Configuration"
-    print_color "$BLUE" "================================"
+    print_color "$BLUE" "╔══════════════════════════════════════╗"
+    print_color "$BLUE" "║       VibeSaaS Setup Script         ║"
+    print_color "$BLUE" "╚══════════════════════════════════════╝"
     echo
 }
 
