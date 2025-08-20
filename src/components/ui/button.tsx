@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -35,25 +36,49 @@ const buttonVariants = cva(
   }
 )
 
-function Button({
-  className,
-  variant,
-  size,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot : "button"
-
-  return (
-    <Comp
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  )
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+  loading?: boolean
+  loadingText?: string
 }
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    className, 
+    variant, 
+    size, 
+    asChild = false, 
+    loading = false,
+    loadingText,
+    disabled,
+    children,
+    ...props 
+  }, ref) => {
+    const Comp = asChild ? Slot : "button"
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        disabled={disabled || loading}
+        aria-busy={loading}
+        aria-disabled={disabled || loading}
+        {...props}
+      >
+        {loading && (
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+        )}
+        <span className={cn(loading && !loadingText && "sr-only")}>
+          {loading && loadingText ? loadingText : children}
+        </span>
+      </Comp>
+    )
+  }
+)
+
+Button.displayName = "Button"
 
 export { Button, buttonVariants }

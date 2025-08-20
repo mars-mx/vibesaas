@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/lib/utils";
 
 interface ScrollProgressBarProps {
   className?: string;

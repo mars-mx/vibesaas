@@ -130,7 +130,7 @@ export const AnimatedCounter = memo(({
 }: AnimatedCounterProps) => {
   const [displayValue, setDisplayValue] = useState(preserveValue ? from : to);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const prefersReducedMotion = usePrefersReducedMotion();
   
   const animationRef = useRef<number>();

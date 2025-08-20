@@ -8,18 +8,21 @@
       animation: fadeIn linear;
       animation-timeline: view();
       animation-range: entry 0% cover 40%;
+      animation-fill-mode: both;
     }
 
     .scroll-scale-up {
       animation: scaleUp linear;
       animation-timeline: view();
       animation-range: entry 0% cover 40%;
+      animation-fill-mode: both;
     }
 
     .scroll-slide-up {
       animation: slideUp linear;
       animation-timeline: view();
       animation-range: entry 0% cover 40%;
+      animation-fill-mode: both;
     }
 
     /* Parallax effects */
@@ -165,11 +168,27 @@
   }
 }
 
+/* Fallback for browsers without scroll-timeline support */
+@supports not (animation-timeline: scroll()) {
+  .scroll-fade-in,
+  .scroll-scale-up,
+  .scroll-slide-up,
+  .scroll-slide-left,
+  .scroll-slide-right,
+  .scroll-blur-reveal,
+  .scroll-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   [class*="scroll-"],
   [class*="animate-"] {
     animation: none !important;
     transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

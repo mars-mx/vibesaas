@@ -174,13 +174,12 @@ interface AnimatedCounterProps {
 }
 
 export function MotionCounter({
-  from = 0,
   to,
   duration = 2,
   className,
   suffix = '',
   prefix = ''
-}: AnimatedCounterProps) {
+}: Omit<AnimatedCounterProps, 'from'>) {
   return (
     <motion.span
       className={className}
@@ -229,7 +228,7 @@ export function ReducedMotion({ children }: { children: ReactNode }) {
           animation: 'none !important',
           transition: 'none !important'
         }
-      } as any}
+      } as React.CSSProperties}
     >
       {children}
     </motion.div>

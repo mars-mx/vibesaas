@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { Container } from "@/components/common/container";
 import { FEATURES, COMPARISON_FEATURES } from "@/features/marketing/constants";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-export function WhyUseThisSection() {
+export const WhyUseThisSection = memo(function WhyUseThisSection() {
   return (
     <section id="features" className="py-24 sm:py-32 bg-background">
       <Container>
@@ -33,7 +34,7 @@ export function WhyUseThisSection() {
                 <Card className="relative">
                   <CardHeader>
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
-                      {Icon && <Icon className="h-6 w-6 text-primary-foreground" />}
+                      {Icon && <Icon className="h-6 w-6 text-primary-foreground" aria-hidden="true" />}
                     </div>
                     <h3 className="text-xl font-semibold">
                       {feature.title}
@@ -77,7 +78,7 @@ export function WhyUseThisSection() {
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
                   <div className="p-6 text-center">
                     <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-                      <svg className="h-6 w-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-6 w-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
@@ -89,7 +90,7 @@ export function WhyUseThisSection() {
                 {/* Other Boilerplates Column Header */}
                 <div className="p-6 text-center bg-muted/10">
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                    <svg className="h-6 w-6 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-6 w-6 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                   </div>
@@ -115,7 +116,7 @@ export function WhyUseThisSection() {
                     <div className="flex items-center justify-center p-6 bg-gradient-to-r from-primary/5 to-secondary/5">
                       <div className="flex items-center gap-3">
                         <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                          <svg className="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
@@ -129,7 +130,7 @@ export function WhyUseThisSection() {
                     <div className="flex items-center justify-center p-6">
                       <div className="flex items-center gap-3">
                         <div className="flex-shrink-0 w-6 h-6 rounded-full bg-muted flex items-center justify-center">
-                          <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         </div>
@@ -147,4 +148,4 @@ export function WhyUseThisSection() {
       </Container>
     </section>
   );
-}
+});

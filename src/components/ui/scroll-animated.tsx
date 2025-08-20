@@ -2,7 +2,7 @@
 
 import { ReactNode, HTMLAttributes } from 'react';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
-import { cn } from '@/lib/utils/cn';
+import { cn } from '@/lib/utils';
 
 interface ScrollAnimatedProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -44,7 +44,7 @@ export function ScrollAnimated({
 
   return (
     <Component
-      ref={ref as any}
+      ref={ref as React.Ref<HTMLElement>}
       className={cn(
         supportsScrollTimeline ? animation : '',
         fallbackClasses,

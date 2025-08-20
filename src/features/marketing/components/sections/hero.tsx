@@ -1,63 +1,70 @@
 'use client';
 
+import { memo } from 'react';
 import Link from "next/link";
-import { ArrowRight, Zap } from "lucide-react";
+import { Zap } from "lucide-react";
 import { Container } from "@/components/common/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { GitHubLink } from "@/features/marketing/components/github-link";
 import { ANIMATION_ORB_SIZES, ANIMATION_ORB_POSITIONS, ANIMATION_ORB_COLORS } from "@/features/marketing/constants/animations";
 import { motion } from "framer-motion";
 import { HeroTitle, AnimatedDiv, scaleInVariants } from "@/components/ui/motion";
 
-export function HeroSection() {
+// Memoize background animations to prevent re-renders
+const AnimatedOrbs = memo(function AnimatedOrbs() {
+  return (
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <motion.div 
+        className={`absolute ${ANIMATION_ORB_POSITIONS.topLeft} ${ANIMATION_ORB_SIZES.medium} rounded-full ${ANIMATION_ORB_COLORS.primary} blur-3xl`}
+        animate={{
+          x: [0, 30, 0],
+          y: [0, -30, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div 
+        className={`absolute ${ANIMATION_ORB_POSITIONS.topRight} ${ANIMATION_ORB_SIZES.large} rounded-full ${ANIMATION_ORB_COLORS.secondary} blur-3xl`}
+        animate={{
+          x: [0, -40, 0],
+          y: [0, 40, 0],
+          scale: [1, 1.15, 1],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+      />
+      <motion.div 
+        className={`absolute ${ANIMATION_ORB_POSITIONS.bottomCenter} ${ANIMATION_ORB_SIZES.small} rounded-full ${ANIMATION_ORB_COLORS.accent} blur-3xl`}
+        animate={{
+          x: [0, 20, -20, 0],
+          y: [0, -20, 20, 0],
+          scale: [1, 1.2, 1.1, 1],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 4
+        }}
+      />
+    </div>
+  );
+});
+
+export const HeroSection = memo(function HeroSection() {
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
       {/* Animated gradient orbs with Framer Motion */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <motion.div 
-          className={`absolute ${ANIMATION_ORB_POSITIONS.topLeft} ${ANIMATION_ORB_SIZES.medium} rounded-full ${ANIMATION_ORB_COLORS.primary} blur-3xl`}
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -30, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div 
-          className={`absolute ${ANIMATION_ORB_POSITIONS.topRight} ${ANIMATION_ORB_SIZES.large} rounded-full ${ANIMATION_ORB_COLORS.secondary} blur-3xl`}
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 40, 0],
-            scale: [1, 1.15, 1],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-        <motion.div 
-          className={`absolute ${ANIMATION_ORB_POSITIONS.bottomCenter} ${ANIMATION_ORB_SIZES.small} rounded-full ${ANIMATION_ORB_COLORS.accent} blur-3xl`}
-          animate={{
-            x: [0, 20, -20, 0],
-            y: [0, -20, 20, 0],
-            scale: [1, 1.2, 1.1, 1],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3
-          }}
-        />
-      </div>
+      <AnimatedOrbs />
 
       <Container className="relative flex min-h-screen items-center justify-center pt-20">
         <div className="mx-auto w-full py-12">
@@ -65,7 +72,7 @@ export function HeroSection() {
             {/* Badge */}
             <AnimatedDiv className="mb-8 flex items-center justify-center" variants={scaleInVariants}>
               <Badge className="gap-2 px-3 py-1 bg-primary/10 text-primary border-primary/20 hover:bg-primary/15">
-                <Zap className="h-4 w-4" />
+                <Zap className="h-4 w-4" aria-hidden="true" />
                 100% Free Forever. No BS.
               </Badge>
             </AnimatedDiv>
@@ -109,4 +116,4 @@ export function HeroSection() {
       </Container>
     </section>
   );
-}
+});
