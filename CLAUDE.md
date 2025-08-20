@@ -507,6 +507,91 @@ Before implementing features or working with any external service:
 4. Verify API signatures and configuration options
 5. Look for code examples specific to the library version in use
 
+## Specialized Agent Usage
+
+**CRITICAL**: Claude MUST proactively use these specialized agents when working on features. Each agent has deep expertise in their domain and will ensure best practices, security, and proper architecture. Use them early and often during development.
+
+### Available Specialized Agents
+
+1. **system-architect** - ALWAYS consult BEFORE implementing ANY new feature
+   - Use for: Architectural decisions, code placement, pattern selection, refactoring plans
+   - Example: Before adding any new functionality, API endpoints, or major components
+
+2. **convex-backend-architect** - Use for ALL Convex backend work
+   - Use for: Database schemas, queries, mutations, real-time subscriptions, performance optimization
+   - Example: Creating new Convex functions, reviewing existing backend code
+
+3. **react-nextjs-architect** - Use for frontend React/Next.js development
+   - Use for: Component design, state management, SSR/SSG decisions, React patterns
+   - Example: Creating new components, implementing frontend features
+
+4. **ui-ux-design-specialist** - Consult for ALL UI/design decisions
+   - Use for: Component styling, accessibility, responsive design, user experience
+   - Example: Any UI component creation or modification
+
+5. **clerk-auth-specialist** - Use for authentication implementation
+   - Use for: Clerk setup, protected routes, RBAC, authentication flows
+   - Example: Implementing sign-in/sign-up, protecting routes, managing user sessions
+
+6. **polar-payments-specialist** - Use for payment integration
+   - Use for: Subscription setup, checkout flows, webhooks, billing management
+   - Example: Implementing pricing pages, subscription management, payment processing
+
+7. **security-auditor** - Run AFTER implementing features
+   - Use for: Security review of code changes, vulnerability assessment
+   - Example: After implementing auth, payments, or data handling features
+
+8. **pair-programming-reviewer** - Use for code review
+   - Use for: Critical review of implemented code, improvement suggestions
+   - Example: After completing any significant feature implementation
+
+9. **conversion-copywriter** - Use for user-facing text
+   - Use for: Landing pages, CTAs, pricing copy, marketing content
+   - Example: Writing hero sections, feature descriptions, upgrade prompts
+
+10. **debug-analyst** - Use for troubleshooting
+    - Use for: Analyzing errors, debugging complex issues, performance problems
+    - Example: When encountering bugs or unexpected behavior
+
+### Agent Usage Workflow
+
+#### Starting a New Feature:
+1. **FIRST**: Use `system-architect` to plan the implementation
+2. **THEN**: Use domain-specific architects (convex-backend-architect, react-nextjs-architect)
+3. **ALWAYS**: Consult `ui-ux-design-specialist` for any UI work
+4. **IMPLEMENT**: Write the code following the architectural guidance
+5. **REVIEW**: Use `pair-programming-reviewer` for code review
+6. **SECURITY**: Run `security-auditor` for security assessment
+7. **DEBUG**: Use `debug-analyst` if issues arise
+
+#### Example Multi-Agent Workflow:
+```
+User: "Add a subscription upgrade flow"
+
+1. system-architect → Plans overall architecture
+2. polar-payments-specialist → Designs payment integration
+3. convex-backend-architect → Plans backend subscription logic
+4. react-nextjs-architect → Designs frontend components
+5. ui-ux-design-specialist → Reviews UI/UX design
+6. conversion-copywriter → Writes upgrade copy
+7. [Implement the feature]
+8. pair-programming-reviewer → Reviews implementation
+9. security-auditor → Security assessment
+```
+
+### Parallel Agent Execution
+
+**IMPORTANT**: Launch multiple agents concurrently when their domains don't overlap:
+- Run architects in parallel for different layers (backend + frontend)
+- Run security-auditor and pair-programming-reviewer together after implementation
+- Combine ui-ux-design-specialist with conversion-copywriter for UI work
+
+### Agent Trust Level
+
+- Agent outputs should generally be trusted as authoritative
+- Agents may consult each other for cross-domain expertise
+- Always implement agent recommendations unless user explicitly overrides
+
 ## Frontend Development Guidelines
 
 ### Component Development
