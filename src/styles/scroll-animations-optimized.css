@@ -1,0 +1,175 @@
+/* Optimized Scroll-Driven Animations */
+/* Only loaded for browsers with support */
+
+@supports (animation-timeline: scroll()) {
+  @layer scroll-animations {
+    /* Base scroll animations */
+    .scroll-fade-in {
+      animation: fadeIn linear;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .scroll-scale-up {
+      animation: scaleUp linear;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .scroll-slide-up {
+      animation: slideUp linear;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    /* Parallax effects */
+    .scroll-parallax {
+      animation: parallax linear;
+      animation-timeline: scroll(root);
+    }
+
+    .hero-bg-parallax {
+      animation: bgParallax linear;
+      animation-timeline: scroll(root);
+    }
+
+    /* Title animations */
+    .hero-title-animate {
+      animation: titleReveal ease-out;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+
+    /* Shape morphing for orbs */
+    .shape-morph {
+      animation: shapeMorph 20s ease-in-out infinite;
+    }
+
+    /* Stagger children animations */
+    .scroll-stagger > * {
+      animation: fadeInUp linear;
+      animation-timeline: view();
+    }
+
+    .scroll-stagger > *:nth-child(1) { animation-range: entry 0% cover 40%; }
+    .scroll-stagger > *:nth-child(2) { animation-range: entry 5% cover 45%; }
+    .scroll-stagger > *:nth-child(3) { animation-range: entry 10% cover 50%; }
+    .scroll-stagger > *:nth-child(4) { animation-range: entry 15% cover 55%; }
+    .scroll-stagger > *:nth-child(5) { animation-range: entry 20% cover 60%; }
+
+    /* Animation delays using CSS variables for flexibility */
+    .scroll-delay-100 { animation-delay: 100ms; }
+    .scroll-delay-200 { animation-delay: 200ms; }
+    .scroll-delay-300 { animation-delay: 300ms; }
+
+    /* Keyframes */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleUp {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes parallax {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-50px);
+      }
+    }
+
+    @keyframes bgParallax {
+      from {
+        transform: translateY(0) scale(1);
+      }
+      to {
+        transform: translateY(-100px) scale(1.1);
+      }
+    }
+
+    @keyframes titleReveal {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes shapeMorph {
+      0%, 100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        transform: rotate(0deg);
+      }
+      25% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        transform: rotate(90deg);
+      }
+      50% {
+        border-radius: 40% 60% 60% 40% / 70% 30% 40% 60%;
+        transform: rotate(180deg);
+      }
+      75% {
+        border-radius: 60% 30% 30% 70% / 40% 70% 60% 30%;
+        transform: rotate(270deg);
+      }
+    }
+
+    /* Performance hints */
+    [class*="scroll-"] {
+      will-change: transform, opacity;
+    }
+
+    /* Clean up will-change after animation */
+    [class*="scroll-"]:not(:hover) {
+      animation-fill-mode: both;
+    }
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  [class*="scroll-"],
+  [class*="animate-"] {
+    animation: none !important;
+    transition: none !important;
+  }
+}

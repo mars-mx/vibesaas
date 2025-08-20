@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "../styles/scroll-animations.css";
+@import "../styles/animations-critical.css";
+@import "../styles/scroll-animations-optimized.css";
 
 @custom-variant dark (&:is(.dark *));
 

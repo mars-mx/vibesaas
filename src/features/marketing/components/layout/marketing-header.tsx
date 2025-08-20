@@ -9,7 +9,7 @@ export function MarketingHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full pt-4">
       <Container>
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto w-full lg:w-[1152px]">
           <div className="flex h-16 items-center justify-between rounded-full border border-border/20 bg-background/80 backdrop-blur-xl px-8 shadow-sm shadow-foreground/5 ring-1 ring-white/10 dark:ring-white/5 transition-shadow hover:shadow-md hover:shadow-foreground/10">
             <Logo />
             

@@ -63,7 +63,7 @@ export function WhyUseThisSection() {
           </div>
 
           {/* Card-based Comparison */}
-          <div className="max-w-6xl mx-auto">
+          <div className="w-full lg:w-[1152px] mx-auto">
             {/* Header Cards - Three columns to match table */}
             <Card className="mb-8 overflow-hidden scroll-scale-up">
               <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x">

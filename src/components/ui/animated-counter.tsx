@@ -73,10 +73,15 @@ export interface AnimatedCounterProps
 }
 
 const formatNumber = (
-  num: number, 
+  num: number | undefined, 
   decimals: number, 
   separator?: string
 ): string => {
+  // Handle undefined or invalid numbers
+  if (num === undefined || num === null || isNaN(num)) {
+    return '0';
+  }
+  
   const fixed = num.toFixed(decimals);
   if (!separator) return fixed;
   
