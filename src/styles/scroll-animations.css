@@ -1,0 +1,611 @@
+/* ============================================
+   Scroll-Driven Animations for VibeSaaS
+   ============================================
+   Modern CSS scroll animations using @scroll-timeline
+   and animation-timeline for performance and smoothness.
+   No JavaScript required!
+   ============================================ */
+
+/* ============================================
+   1. Progressive Enhancement & Feature Detection
+   ============================================ */
+@layer scroll-animations {
+  /* Only apply animations if user hasn't requested reduced motion */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Feature detection for scroll-driven animations */
+    @supports (animation-timeline: scroll()) {
+      
+      /* ============================================
+         2. Base Animation Classes
+         ============================================ */
+      
+      /* Fade in on scroll */
+      .scroll-fade-in {
+        animation: fadeInUp linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 40%;
+      }
+      
+      /* Slide in from left */
+      .scroll-slide-left {
+        animation: slideInLeft linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+      
+      /* Slide in from right */
+      .scroll-slide-right {
+        animation: slideInRight linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+      
+      /* Scale up on scroll */
+      .scroll-scale-up {
+        animation: scaleUp linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+      
+      /* Rotate in */
+      .scroll-rotate-in {
+        animation: rotateIn linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 60%;
+      }
+      
+      /* Parallax effect */
+      .scroll-parallax {
+        animation: parallax linear;
+        animation-timeline: scroll(root);
+      }
+      
+      /* Reveal with blur */
+      .scroll-blur-reveal {
+        animation: blurReveal linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 40%;
+      }
+      
+      /* Stagger animations for child elements */
+      .scroll-stagger > * {
+        animation: fadeInUp linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+      
+      .scroll-stagger > *:nth-child(1) { animation-range: entry 0% cover 40%; }
+      .scroll-stagger > *:nth-child(2) { animation-range: entry 5% cover 45%; }
+      .scroll-stagger > *:nth-child(3) { animation-range: entry 10% cover 50%; }
+      .scroll-stagger > *:nth-child(4) { animation-range: entry 15% cover 55%; }
+      .scroll-stagger > *:nth-child(5) { animation-range: entry 20% cover 60%; }
+      
+      /* ============================================
+         3. Hero Section Animations
+         ============================================ */
+      
+      /* Hero title animation */
+      .hero-title-animate {
+        animation: heroTitleReveal linear;
+        animation-timeline: scroll(root);
+        animation-range: 0% 30%;
+      }
+      
+      /* Hero subtitle animation */
+      .hero-subtitle-animate {
+        animation: fadeInUp linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+        animation-delay: 100ms;
+      }
+      
+      /* Hero CTA buttons */
+      .hero-cta-animate {
+        animation: ctaPopIn linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 40%;
+      }
+      
+      /* Hero background parallax */
+      .hero-bg-parallax {
+        animation: bgParallax linear;
+        animation-timeline: scroll(root);
+        animation-range: 0% 100%;
+      }
+      
+      /* ============================================
+         4. Card Animations
+         ============================================ */
+      
+      /* Card flip on scroll - only animates in, stays visible */
+      .card-flip-scroll {
+        animation: cardFlip linear forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 60%;
+        transform-style: preserve-3d;
+      }
+      
+      /* Card hover lift */
+      .card-hover-lift {
+        animation: cardLift linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+      
+      /* Card stack animation */
+      .card-stack {
+        animation: stackReveal linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 70%;
+      }
+      
+      /* ============================================
+         5. Text Animations
+         ============================================ */
+      
+      /* Text reveal with mask */
+      .text-reveal-mask {
+        animation: textMaskReveal linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 40%;
+      }
+      
+      /* Typewriter effect */
+      .text-typewriter {
+        animation: typewriter linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 80%;
+      }
+      
+      /* Gradient text animation */
+      .text-gradient-scroll {
+        animation: gradientShift linear;
+        animation-timeline: scroll(root);
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+      
+      /* ============================================
+         6. Progress Indicators
+         ============================================ */
+      
+      /* Page scroll progress bar */
+      .scroll-progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        transform-origin: left;
+        animation: progressBar linear;
+        animation-timeline: scroll(root);
+        z-index: 9999;
+      }
+      
+      /* Section progress dots */
+      .section-progress-dot {
+        animation: dotProgress linear;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+      
+      /* ============================================
+         7. Advanced Effects
+         ============================================ */
+      
+      /* Morph shape on scroll */
+      .shape-morph {
+        animation: shapeMorph linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 100%;
+      }
+      
+      /* 3D tilt effect */
+      .tilt-3d {
+        animation: tilt3D linear;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+      }
+      
+      /* Sticky element with scale */
+      .sticky-scale {
+        position: sticky;
+        top: 20vh;
+        animation: stickyScale linear;
+        animation-timeline: scroll(root);
+      }
+      
+      /* Wave animation */
+      .wave-scroll {
+        animation: waveMotion linear;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+      
+      /* ============================================
+         8. Image Animations
+         ============================================ */
+      
+      /* Image zoom on scroll */
+      .img-zoom-scroll {
+        animation: imageZoom linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 100%;
+        overflow: hidden;
+      }
+      
+      /* Image reveal with clip-path */
+      .img-clip-reveal {
+        animation: clipReveal linear;
+        animation-timeline: view();
+        animation-range: entry 0% cover 60%;
+      }
+      
+      /* Ken Burns effect */
+      .img-ken-burns {
+        animation: kenBurns linear;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+    }
+  }
+}
+
+/* ============================================
+   9. Keyframe Definitions
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes parallax {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20%);
+  }
+}
+
+@keyframes blurReveal {
+  from {
+    opacity: 0;
+    filter: blur(20px);
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes heroTitleReveal {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95) translateY(-10px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes ctaPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-5deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes bgParallax {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-30%) scale(1.1);
+  }
+}
+
+@keyframes cardFlip {
+  from {
+    transform: rotateY(-90deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cardLift {
+  from {
+    transform: translateY(20px) rotateX(-5deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes stackReveal {
+  from {
+    transform: translateY(100px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes textMaskReveal {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    opacity: 0;
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes progressBar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes dotProgress {
+  0% {
+    transform: scale(0.5);
+    background: var(--muted);
+  }
+  50% {
+    transform: scale(1.2);
+    background: var(--primary);
+  }
+  100% {
+    transform: scale(1);
+    background: var(--accent);
+  }
+}
+
+@keyframes shapeMorph {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+@keyframes tilt3D {
+  0% {
+    transform: perspective(1000px) rotateX(20deg) rotateY(-20deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(0) rotateY(0);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(-20deg) rotateY(20deg);
+  }
+}
+
+@keyframes stickyScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(0.7);
+  }
+}
+
+@keyframes waveMotion {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(10px) rotate(2deg);
+  }
+}
+
+@keyframes imageZoom {
+  from {
+    transform: scale(1.3);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes clipReveal {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(100% at 50% 50%);
+  }
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.2) translate(-5%, -5%);
+  }
+}
+
+/* ============================================
+   10. Fallback Animations (for browsers without scroll-timeline support)
+   ============================================ */
+
+@supports not (animation-timeline: scroll()) {
+  /* Basic intersection observer fallback classes */
+  .scroll-fade-in,
+  .scroll-slide-left,
+  .scroll-slide-right,
+  .scroll-scale-up,
+  .scroll-rotate-in,
+  .scroll-blur-reveal {
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .scroll-fade-in.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .scroll-slide-left.in-view {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .scroll-slide-right.in-view {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .scroll-scale-up.in-view {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  /* Initial states for fallback */
+  .scroll-fade-in:not(.in-view) {
+    transform: translateY(40px);
+  }
+  
+  .scroll-slide-left:not(.in-view) {
+    transform: translateX(-100px);
+  }
+  
+  .scroll-slide-right:not(.in-view) {
+    transform: translateX(100px);
+  }
+  
+  .scroll-scale-up:not(.in-view) {
+    transform: scale(0.8);
+  }
+}
+
+/* ============================================
+   11. Utility Classes for Fine-tuning
+   ============================================ */
+
+/* Delay utilities */
+.scroll-delay-100 { animation-delay: 100ms; }
+.scroll-delay-200 { animation-delay: 200ms; }
+.scroll-delay-300 { animation-delay: 300ms; }
+.scroll-delay-500 { animation-delay: 500ms; }
+
+/* Duration modifiers */
+.scroll-duration-fast { animation-duration: 0.3s; }
+.scroll-duration-normal { animation-duration: 0.6s; }
+.scroll-duration-slow { animation-duration: 1s; }
+.scroll-duration-slower { animation-duration: 1.5s; }
+
+/* Easing functions */
+.scroll-ease-spring {
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.scroll-ease-bounce {
+  animation-timing-function: cubic-bezier(0.87, -0.41, 0.19, 1.44);
+}
+.scroll-ease-smooth {
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

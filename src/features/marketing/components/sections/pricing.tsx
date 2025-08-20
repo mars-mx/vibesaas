@@ -18,16 +18,16 @@ export function PricingSection() {
     <section id="pricing" className="relative py-24 sm:py-32 bg-gradient-to-b from-background via-background/95 to-background">
       <Container>
         <div className="mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl scroll-fade-in">
             Our Pricing Is Revolutionary
           </h2>
-          <p className="mt-4 text-lg text-foreground-muted">
+          <p className="mt-4 text-lg text-foreground-muted scroll-fade-in scroll-delay-200">
             Just kidding. There&apos;s no pricing. It&apos;s free.
           </p>
         </div>
 
         <div className="mx-auto mt-16">
-          <div className="relative mx-auto w-full sm:w-80 lg:w-96">
+          <div className="relative mx-auto w-full sm:w-80 lg:w-96 card-flip-scroll">
             {/* Subtle glow effect */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 via-primary/10 to-secondary/20 opacity-40 blur-xl" />
             
@@ -63,9 +63,9 @@ export function PricingSection() {
               </CardHeader>
 
               <CardContent className="border-t border-border/50 pt-4 pb-3">
-                <ul className="space-y-2.5" role="list" aria-label="Included features">
+                <ul className="space-y-2.5 scroll-stagger" role="list" aria-label="Included features">
                   {PRICING_FEATURES.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2.5 group">
+                    <li key={index} className="flex items-start gap-2.5 group scroll-slide-left">
                       <div className="mt-0.5 rounded-full bg-primary/8 p-1 transition-colors group-hover:bg-primary/12">
                         <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                       </div>
@@ -93,7 +93,7 @@ export function PricingSection() {
           </div>
 
           {/* Social proof */}
-          <p className="mt-8 text-center text-sm text-muted-foreground">
+          <p className="mt-8 text-center text-sm text-muted-foreground scroll-fade-in scroll-delay-500">
             Join thousands of developers building with VibeSaaS
           </p>
         </div>
