@@ -69,7 +69,7 @@
   --radius: 0.5rem;
 }
 
-@theme inline {
+@theme {
   /* Color System */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -98,6 +98,22 @@
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
+
+  /* Container/Max-Width System - Reset and redefine */
+  --container-*: initial;
+  --container-3xs: 16rem;     /* 256px */
+  --container-2xs: 18rem;     /* 288px */
+  --container-xs: 20rem;      /* 320px */
+  --container-sm: 24rem;      /* 384px */
+  --container-md: 28rem;      /* 448px */
+  --container-lg: 32rem;      /* 512px */
+  --container-xl: 36rem;      /* 576px */
+  --container-2xl: 42rem;     /* 672px */
+  --container-3xl: 48rem;     /* 768px */
+  --container-4xl: 56rem;     /* 896px */
+  --container-5xl: 64rem;     /* 1024px */
+  --container-6xl: 72rem;     /* 1152px */
+  --container-7xl: 80rem;     /* 1280px */
 
   /* Border Radius */
   --radius-sm: 0.25rem;

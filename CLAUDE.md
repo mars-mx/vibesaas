@@ -476,6 +476,12 @@ npm run test:coverage
 
 For comprehensive testing documentation, see [Testing Guide](./docs/testing/basics.md).
 
+## Known Issues & Solutions
+
+For documented issues and their solutions, see the [Issues Documentation](./docs/issues/). This includes:
+- Tailwind CSS v4 max-width utilities behavior in nested containers
+- Common development pitfalls and their fixes
+
 ## Clean Code Principles
 
 When working on this codebase, prioritize **long-term maintainability over short-term wins**. Every architectural decision should be evaluated through the lens of clean code principles and future scalability. Focus on writing **atomic functions** that do one thing well, maintaining strict **separation of concerns** across all layers, and actively **reducing code smells** through continuous refactoring. Each function should have a single, clear responsibility that can be understood without diving into implementation details. When making technical decisions, reason through the longer scope—consider how the code will evolve over months and years, not just the immediate requirement. Ask yourself: "Will this solution scale when we have 10x the features? Will new developers understand this in 6 months? Does this create technical debt we'll regret?" If uncertain about the best approach, **research current best practices online** using WebSearch or WebFetch tools to find proven patterns from the community, especially from official documentation and reputable engineering blogs. Implement solutions that have stood the test of time in production environments rather than clever shortcuts that save a few lines today but create maintenance nightmares tomorrow. Remember: code is read far more often than it's written, so optimize for readability, testability, and maintainability above all else.
