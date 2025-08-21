@@ -1,67 +1,85 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { fetchAction } from 'convex/nextjs';
 import { api } from '../../../../../convex/_generated/api';
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
-  // Get the headers
+  const log = logger.child({ module: 'clerk-webhook' });
+  
+  // Verify webhook headers
   const headerPayload = await headers();
   const svix_id = headerPayload.get('svix-id');
   const svix_timestamp = headerPayload.get('svix-timestamp');
   const svix_signature = headerPayload.get('svix-signature');
 
-  // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Error occured -- no svix headers', {
-      status: 400,
-    });
+    log.warn('Missing svix headers in webhook request');
+    return new Response('Missing svix headers', { status: 400 });
   }
 
-  // Get the body
-  const payload = await req.text();
-  const body = JSON.parse(payload);
+  // Verify webhook secret is configured
+  const webhookSecret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
+  if (!webhookSecret) {
+    log.error('CLERK_WEBHOOK_SIGNING_SECRET not configured');
+    return new Response('Server configuration error', { status: 500 });
+  }
 
-  // Create a new Svix instance with your secret.
-  const wh = new Webhook(process.env.CLERK_WEBHOOK_SIGNING_SECRET || '');
-
+  // Verify webhook signature
   let evt: WebhookEvent;
-
-  // Verify the payload with the headers
   try {
-    evt = wh.verify(payload, {
+    const wh = new Webhook(webhookSecret);
+    evt = wh.verify(await req.text(), {
       'svix-id': svix_id,
       'svix-timestamp': svix_timestamp,
       'svix-signature': svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error('Error verifying webhook:', err);
-    return new Response('Error occured', {
-      status: 400,
-    });
+    log.error({ error: err }, 'Webhook signature verification failed');
+    return new Response('Invalid signature', { status: 400 });
   }
 
-  // Handle the webhook
   const eventType = evt.type;
+  const eventData = evt.data as any;
+
+  // Extract user ID based on event type
+  const clerkId = eventType === 'session.created' 
+    ? eventData.user_id 
+    : eventData.id;
+
+  if (!clerkId) {
+    log.error({ eventType }, 'Missing user ID in webhook event');
+    return new Response('Missing user ID', { status: 400 });
+  }
+  
+  log.info({ eventType, clerkId }, 'Processing Clerk webhook event');
 
   try {
-    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
-    
-    await convex.action(api.users.handleClerkWebhook, {
+    // Call Convex to handle the webhook
+    await fetchAction(api.users.handleClerkWebhook as any, {
       eventType,
-      clerkId: id,
-      email: email_addresses?.[0]?.email_address,
-      firstName: first_name,
-      lastName: last_name,
-      imageUrl: image_url,
+      clerkId,
     });
-    
-    console.log(`User ${eventType}: ${id}`);
-    return new Response('Webhook processed successfully', { status: 200 });
+
+    log.info({ eventType, clerkId }, 'Webhook processed successfully');
+    return new Response('Success', { status: 200 });
   } catch (error) {
-    console.error('Error processing webhook:', error);
-    return new Response('Error processing webhook', { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    log.error(
+      { 
+        eventType, 
+        clerkId, 
+        error: errorMessage 
+      }, 
+      'Webhook processing failed'
+    );
+    
+    // Return 400 for user errors, 500 for server errors
+    const isUserError = errorMessage.includes('User not found') || 
+                        errorMessage.includes('Invalid');
+    return new Response('Processing failed', { 
+      status: isUserError ? 400 : 500 
+    });
   }
 }

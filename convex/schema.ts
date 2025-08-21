@@ -3,15 +3,17 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
-    // Clerk user ID (primary identifier)
+    // Clerk user ID (primary identifier) - REQUIRED for linking
     clerkId: v.string(),
-    email: v.string(),
-    firstName: v.optional(v.string()),
-    lastName: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
     
-    // User status and metadata
+    // Application-specific user data (not available in Clerk session)
     isOnboarded: v.optional(v.boolean()),
+    preferences: v.optional(v.object({
+      theme: v.optional(v.union(v.literal("light"), v.literal("dark"), v.literal("system"))),
+      notifications: v.optional(v.boolean()),
+    })),
+    
+    // Timestamps for audit trail
     createdAt: v.number(),
     updatedAt: v.number(),
     
@@ -29,8 +31,7 @@ export default defineSchema({
     subscriptionId: v.optional(v.string()),
     productId: v.optional(v.string()),
   })
-    .index("by_clerk_id", ["clerkId"])
-    .index("by_email", ["email"]),
+    .index("by_clerk_id", ["clerkId"]),
     
   // Add more tables as needed for your app
   // e.g., projects, documents, etc.
