@@ -26,8 +26,10 @@ export function GitHubLink({
         target="_blank"
         rel="noopener noreferrer"
       >
-        {showIcon && <Code className="mr-2 h-5 w-5" />}
-        {children}
+        <span className="inline-flex items-center">
+          {showIcon && <Code className="mr-2 h-5 w-5" aria-hidden="true" />}
+          {children}
+        </span>
       </Link>
     </Button>
   );

@@ -49,7 +49,7 @@ export function PricingSection() {
                 
                 <div className="space-y-2">
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                    <span className="text-4xl font-bold tracking-tight text-foreground">
                       $0
                     </span>
                     <span className="ml-1 text-lg text-muted-foreground">
@@ -80,8 +80,10 @@ export function PricingSection() {
               <CardFooter className="flex flex-col gap-2.5 border-t border-border/50 pt-4 pb-5">
                 <Button className="w-full h-10 text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" size="default" asChild>
                   <Link href="/sign-up" className="group">
-                    Get Started Free
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <span className="inline-flex items-center">
+                      Get Started Free
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
                   </Link>
                 </Button>
 

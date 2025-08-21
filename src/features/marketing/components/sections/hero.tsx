@@ -7,64 +7,13 @@ import { Container } from "@/components/common/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GitHubLink } from "@/features/marketing/components/github-link";
-import { ANIMATION_ORB_SIZES, ANIMATION_ORB_POSITIONS, ANIMATION_ORB_COLORS } from "@/features/marketing/constants/animations";
 import { motion } from "framer-motion";
 import { HeroTitle, AnimatedDiv, scaleInVariants } from "@/components/ui/motion";
 
-// Memoize background animations to prevent re-renders
-const AnimatedOrbs = memo(function AnimatedOrbs() {
-  return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <motion.div 
-        className={`absolute ${ANIMATION_ORB_POSITIONS.topLeft} ${ANIMATION_ORB_SIZES.medium} rounded-full ${ANIMATION_ORB_COLORS.primary} blur-3xl`}
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -30, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div 
-        className={`absolute ${ANIMATION_ORB_POSITIONS.topRight} ${ANIMATION_ORB_SIZES.large} rounded-full ${ANIMATION_ORB_COLORS.secondary} blur-3xl`}
-        animate={{
-          x: [0, -40, 0],
-          y: [0, 40, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
-      />
-      <motion.div 
-        className={`absolute ${ANIMATION_ORB_POSITIONS.bottomCenter} ${ANIMATION_ORB_SIZES.small} rounded-full ${ANIMATION_ORB_COLORS.accent} blur-3xl`}
-        animate={{
-          x: [0, 20, -20, 0],
-          y: [0, -20, 20, 0],
-          scale: [1, 1.2, 1.1, 1],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 4
-        }}
-      />
-    </div>
-  );
-});
 
 export const HeroSection = memo(function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
-      {/* Animated gradient orbs with Framer Motion */}
-      <AnimatedOrbs />
+    <section className="relative min-h-screen overflow-hidden bg-background">
 
       <Container className="relative flex min-h-screen items-center justify-center pt-20">
         <div className="mx-auto w-full py-12">
