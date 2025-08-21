@@ -10,9 +10,12 @@ import { GitHubLink } from "@/features/marketing/components/github-link";
 import { motion } from "framer-motion";
 import { HeroTitle, AnimatedDiv, scaleInVariants } from "@/components/ui/motion";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { useUser } from "@clerk/nextjs";
 
 
 export const HeroSection = memo(function HeroSection() {
+  const { isSignedIn } = useUser();
+  
   return (
     <section className="relative min-h-screen overflow-hidden bg-background">
 
@@ -61,8 +64,8 @@ export const HeroSection = memo(function HeroSection() {
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
               <Button size="lg" asChild>
-                <Link href="/docs/quickstart">
-                  Get Started Free
+                <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}>
+                  {isSignedIn ? "Dashboard" : "Get Started Free"}
                 </Link>
               </Button>
               <GitHubLink />

@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { Container } from "@/components/common/container";
@@ -12,8 +14,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useUser } from "@clerk/nextjs";
 
 export function PricingSection() {
+  const { isSignedIn } = useUser();
   return (
     <section id="pricing" className="relative py-24 sm:py-32 bg-gradient-to-b from-background via-background/95 to-background">
       <Container>
@@ -79,16 +83,16 @@ export function PricingSection() {
 
               <CardFooter className="flex flex-col gap-2.5 border-t border-border/50 pt-4 pb-5">
                 <Button className="w-full h-10 text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" size="default" asChild>
-                  <Link href="/sign-up" className="group">
+                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")} className="group">
                     <span className="inline-flex items-center">
-                      Get Started Free
+                      {isSignedIn ? "Dashboard" : "Get Started Free"}
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </Link>
                 </Button>
 
                 <p className="text-center text-xs text-muted-foreground">
-                  No credit card required. Ever.
+                  {isSignedIn ? "You're already in!" : "No credit card required. Ever."}
                 </p>
               </CardFooter>
             </Card>
