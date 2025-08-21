@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { GitHubLink } from "@/features/marketing/components/github-link";
 import { motion } from "framer-motion";
 import { HeroTitle, AnimatedDiv, scaleInVariants } from "@/components/ui/motion";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 
 export const HeroSection = memo(function HeroSection() {
@@ -32,9 +33,15 @@ export const HeroSection = memo(function HeroSection() {
               <span className="block mt-2">
                 Not Days. For{" "}
                 <span className="relative inline-block">
-                  <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                    $0
-                  </span>
+                  <AnimatedCounter
+                    from={299}
+                    to={0}
+                    duration={5000}
+                    delay={500}
+                    prefix="$"
+                    className="inline-block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-[var(--primary)] via-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent"
+                    ariaLabel="Price countdown"
+                  />
                 </span>
               </span>
             </HeroTitle>

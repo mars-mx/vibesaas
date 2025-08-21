@@ -59,6 +59,7 @@
     .scroll-stagger > *:nth-child(3) { animation-range: entry 10% cover 50%; }
     .scroll-stagger > *:nth-child(4) { animation-range: entry 15% cover 55%; }
     .scroll-stagger > *:nth-child(5) { animation-range: entry 20% cover 60%; }
+    .scroll-stagger > *:nth-child(6) { animation-range: entry 25% cover 65%; }
 
     /* Animation delays using CSS variables for flexibility */
     .scroll-delay-100 { animation-delay: 100ms; }
