@@ -9,38 +9,38 @@
   /* Orange Theme - Light Mode */
   --background: oklch(0.995 0.01 40);  /* Warm off-white with orange tint */
   --foreground: oklch(0.25 0.05 40);   /* Deep warm black */
-  
+
   /* Primary orange - #f2401b */
   --primary: oklch(0.58 0.24 38);      /* #f2401b - Your logo orange */
   --primary-foreground: oklch(0.99 0 0); /* White text on primary */
-  
+
   /* Secondary peach/coral */
   --secondary: oklch(0.72 0.16 45);    /* Peachy orange tone */
   --secondary-foreground: oklch(0.99 0 0);
-  
+
   /* Muted/Accent colors */
   --muted: oklch(0.95 0.02 40);        /* Subtle warm background */
   --muted-foreground: oklch(0.45 0.04 40); /* Darker muted text */
-  
+
   --accent: oklch(0.78 0.15 60);       /* Warm golden accent */
   --accent-foreground: oklch(0.25 0.05 40);
-  
+
   /* Card & Popover */
   --card: oklch(0.99 0 0);             /* Pure white cards */
   --card-foreground: oklch(0.25 0.05 40);
-  
+
   --popover: oklch(0.99 0 0);
   --popover-foreground: oklch(0.25 0.05 40);
-  
+
   /* Destructive/Error */
   --destructive: oklch(0.55 0.22 27);  /* Red for errors */
   --destructive-foreground: oklch(0.99 0 0);
-  
+
   /* Borders & Input */
   --border: oklch(0.92 0.02 40);       /* Warm border */
   --input: oklch(0.92 0.02 40);
   --ring: oklch(0.58 0.24 38);         /* Primary color for focus */
-  
+
   /* Additional custom variables */
   --primary-light: oklch(0.68 0.20 38);  /* Lighter version of primary */
   --primary-dark: oklch(0.48 0.26 38);   /* Darker version of primary */
@@ -48,14 +48,14 @@
   --warning: oklch(0.75 0.20 65);      /* Amber warning */
   --info: oklch(0.6 0.15 250);         /* Blue info */
   --error: oklch(0.55 0.22 27);        /* Red for errors (same as destructive) */
-  
+
   /* Chart colors */
   --chart-1: oklch(0.58 0.24 38);      /* Primary */
   --chart-2: oklch(0.72 0.16 45);      /* Secondary */
   --chart-3: oklch(0.78 0.15 60);      /* Accent */
   --chart-4: oklch(0.6 0.18 145);      /* Success */
   --chart-5: oklch(0.75 0.20 65);      /* Warning */
-  
+
   /* Sidebar */
   --sidebar: oklch(0.98 0.01 40);
   --sidebar-foreground: oklch(0.25 0.05 40);
@@ -65,17 +65,16 @@
   --sidebar-accent-foreground: oklch(0.25 0.05 40);
   --sidebar-border: oklch(0.92 0.02 40);
   --sidebar-ring: oklch(0.58 0.24 38);
-  
+
   /* Shadows with orange tint */
   --shadow-sm: 0 1px 2px 0 rgba(242, 64, 27, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(242, 64, 27, 0.1), 0 2px 4px -1px rgba(242, 64, 27, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(242, 64, 27, 0.1), 0 4px 6px -2px rgba(242, 64, 27, 0.05);
-  
+
   --radius: 0.5rem;
 }
 
 /* Removed @theme directive as it's not standard CSS and causes Biome parser errors */
-
 
 body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
@@ -122,38 +121,38 @@ body {
   /* Orange Theme - Dark Mode */
   --background: oklch(0.15 0.02 40);   /* Deep warm black with orange tint */
   --foreground: oklch(0.95 0.01 40);   /* Warm white */
-  
+
   /* Primary orange for dark mode - brighter version of #f2401b */
   --primary: oklch(0.68 0.22 38);      /* Brighter orange for dark mode */
   --primary-foreground: oklch(0.15 0.02 40);
-  
+
   /* Secondary peach for dark */
   --secondary: oklch(0.75 0.14 45);
   --secondary-foreground: oklch(0.15 0.02 40);
-  
+
   /* Muted colors for dark */
   --muted: oklch(0.25 0.02 40);
   --muted-foreground: oklch(0.7 0.02 40);
-  
+
   --accent: oklch(0.78 0.13 60);
   --accent-foreground: oklch(0.15 0.02 40);
-  
+
   /* Card & Popover for dark */
   --card: oklch(0.18 0.02 40);
   --card-foreground: oklch(0.95 0.01 40);
-  
+
   --popover: oklch(0.18 0.02 40);
   --popover-foreground: oklch(0.95 0.01 40);
-  
+
   /* Destructive for dark */
   --destructive: oklch(0.65 0.25 27);
   --destructive-foreground: oklch(0.95 0.01 40);
-  
+
   /* Borders & Input for dark */
   --border: oklch(0.3 0.02 40);
   --input: oklch(0.3 0.02 40);
   --ring: oklch(0.68 0.22 38);
-  
+
   /* Additional custom variables for dark */
   --primary-light: oklch(0.78 0.18 38);  /* Lighter version for dark mode */
   --primary-dark: oklch(0.58 0.24 38);   /* Darker version for dark mode */
@@ -161,14 +160,14 @@ body {
   --warning: oklch(0.75 0.18 65);
   --info: oklch(0.65 0.12 250);
   --error: oklch(0.65 0.25 27);
-  
+
   /* Chart colors for dark */
   --chart-1: oklch(0.68 0.22 38);
   --chart-2: oklch(0.75 0.14 45);
   --chart-3: oklch(0.78 0.13 60);
   --chart-4: oklch(0.65 0.15 145);
   --chart-5: oklch(0.75 0.18 65);
-  
+
   /* Sidebar for dark */
   --sidebar: oklch(0.16 0.02 40);
   --sidebar-foreground: oklch(0.95 0.01 40);
@@ -178,6 +177,28 @@ body {
   --sidebar-accent-foreground: oklch(0.95 0.01 40);
   --sidebar-border: oklch(0.3 0.02 40);
   --sidebar-ring: oklch(0.68 0.22 38);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: oklch(from var(--ring) l c h / 0.5);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {

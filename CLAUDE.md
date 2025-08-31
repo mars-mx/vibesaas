@@ -34,10 +34,36 @@ This is a Next.js 15 application with App Router, designed as a SaaS boilerplate
 - **Next.js 15.4.7** with App Router and Turbopack
 - **React 19** 
 - **TypeScript** with strict mode enabled
-- **Tailwind CSS v4** for styling
+- **Tailwind CSS v4** for styling (see important note below)
 - **Polar** integration for payments (@convex-dev/polar)
 - **Zod** for schema validation and type-safe parsing
 - **Path alias**: `@/*` maps to `./src/*`
+
+### ⚠️ Tailwind CSS v4 Important Note
+
+This project uses **Tailwind CSS v4**, which has breaking changes from v3. The semantic color utility classes from v3 (like `border-border`, `bg-background`, `text-foreground`, etc.) are NOT supported in v4.
+
+**Instead, use CSS variable syntax:**
+- ❌ `border-border` → ✅ `border-[var(--border)]`
+- ❌ `bg-background` → ✅ `bg-[var(--background)]`
+- ❌ `text-foreground` → ✅ `text-[var(--foreground)]`
+- ❌ `bg-primary` → ✅ `bg-[var(--primary)]`
+- ❌ `text-primary-foreground` → ✅ `text-[var(--primary-foreground)]`
+- ❌ `bg-muted` → ✅ `bg-[var(--muted)]`
+- ❌ `text-muted-foreground` → ✅ `text-[var(--muted-foreground)]`
+- ❌ `ring-ring` → ✅ `ring-[var(--ring)]`
+
+**Important for @apply directives:** Don't use v3-style semantic classes in CSS `@apply` directives. Use standard CSS properties with CSS variables instead:
+```css
+/* ❌ Wrong */
+@apply border-border bg-background;
+
+/* ✅ Correct */
+border-color: var(--border);
+background-color: var(--background);
+```
+
+If you encounter `Error: Cannot apply unknown utility class`, check for v3-style color classes and convert them to CSS variable syntax.
 
 ## Project Structure
 

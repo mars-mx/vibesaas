@@ -29,9 +29,9 @@ export function MarketingHeader() {
         <div className="mx-auto w-full lg:w-[1152px]">
           <div className={cn(
             "flex h-16 items-center justify-between rounded-full border px-8 shadow-sm ring-1 transition-all duration-300 ease-in-out",
-            "bg-background/80 backdrop-blur-xl",
-            "border-border/20 shadow-foreground/5 ring-white/10 dark:ring-white/5",
-            "hover:shadow-md hover:shadow-foreground/10",
+            "bg-[var(--background)]/80 backdrop-blur-xl",
+            "border-[var(--border)]/20 shadow-[var(--foreground)]/5 ring-white/10 dark:ring-white/5",
+            "hover:shadow-md hover:shadow-[var(--foreground)]/10",
             // Dynamic styles for dark backgrounds
             isOverDark && [
               "bg-white/10 dark:bg-black/10",

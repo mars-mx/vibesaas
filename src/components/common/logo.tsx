@@ -26,7 +26,7 @@ export function Logo({ className, showText = true }: LogoProps) {
         />
       </picture>
       {showText && (
-        <span className="text-xl font-bold text-foreground">
+        <span className="text-xl font-bold text-[var(--foreground)]">
           VibeSaaS
         </span>
       )}

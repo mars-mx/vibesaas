@@ -66,7 +66,7 @@ export function PricingSection() {
                 </div>
               </CardHeader>
 
-              <CardContent className="border-t border-border/50 pt-4 pb-3">
+              <CardContent className="border-t border-[var(--border)]/50 pt-4 pb-3">
                 <ul className="space-y-2.5 scroll-stagger" role="list" aria-label="Included features">
                   {PRICING_FEATURES.map((feature, index) => (
                     <li key={index} className="flex items-start gap-2.5 group scroll-slide-left">
@@ -81,7 +81,7 @@ export function PricingSection() {
                 </ul>
               </CardContent>
 
-              <CardFooter className="flex flex-col gap-2.5 border-t border-border/50 pt-4 pb-5">
+              <CardFooter className="flex flex-col gap-2.5 border-t border-[var(--border)]/50 pt-4 pb-5">
                 <Button className="w-full h-10 text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" size="default" asChild>
                   <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")} className="group">
                     <span className="inline-flex items-center">

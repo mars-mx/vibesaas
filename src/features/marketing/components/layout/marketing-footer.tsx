@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/constants/site";
 
 export function MarketingFooter() {
   return (
-    <footer className="border-t border-border bg-muted/30">
+    <footer className="border-t border-[var(--border)] bg-[var(--muted)]/30">
       <Container>
         <div className="py-12 md:py-16">
           <div className="flex flex-col items-center justify-center space-y-4">

@@ -13,12 +13,12 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ user }: DashboardClientProps) {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-white">
+    <div className="min-h-screen bg-[var(--background)]">
+      <header className="border-b border-[var(--border)] bg-white">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-[var(--muted-foreground)]">
               Welcome, {user.firstName || user.email}
             </span>
             <UserButton
@@ -41,15 +41,15 @@ export default function DashboardClient({ user }: DashboardClientProps) {
       
       <main className="container mx-auto px-4 py-8">
         <div className="grid gap-6">
-          <div className="rounded-lg border border-border bg-white p-6">
+          <div className="rounded-lg border border-[var(--border)] bg-white p-6">
             <h2 className="text-lg font-semibold mb-4">Getting Started</h2>
-            <p className="text-muted-foreground">
+            <p className="text-[var(--muted-foreground)]">
               Welcome to your VibeSaaS dashboard! Your authentication is now working with Clerk and Convex.
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="rounded-lg border border-border bg-white p-6">
+            <div className="rounded-lg border border-[var(--border)] bg-white p-6">
               <h3 className="font-semibold mb-2">User Profile</h3>
               <div className="text-sm space-y-1">
                 <p><strong>Email:</strong> {user.email}</p>
@@ -58,9 +58,9 @@ export default function DashboardClient({ user }: DashboardClientProps) {
               </div>
             </div>
             
-            <div className="rounded-lg border border-border bg-white p-6">
+            <div className="rounded-lg border border-[var(--border)] bg-white p-6">
               <h3 className="font-semibold mb-2">Next Steps</h3>
-              <ul className="text-sm space-y-1 text-muted-foreground">
+              <ul className="text-sm space-y-1 text-[var(--muted-foreground)]">
                 <li>• Set up your Convex backend</li>
                 <li>• Configure Polar for payments</li>
                 <li>• Customize your dashboard</li>

@@ -32,7 +32,7 @@ export function WhyFreeSection() {
             {WHY_FREE_REASONS.map((reason, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-6 backdrop-blur transition-all duration-300 hover:border-primary/30 hover:bg-card/80 hover:shadow-lg focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 card-hover-lift"
+                className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 p-6 backdrop-blur transition-all duration-300 hover:border-[var(--primary)]/30 hover:bg-[var(--card)]/80 hover:shadow-lg focus-within:border-[var(--primary)]/50 focus-within:ring-2 focus-within:ring-[var(--primary)]/20 card-hover-lift"
               >
                 <div className="mb-4 text-4xl" role="img" aria-label={`${reason.title} icon`}>
                   {reason.emoji}
@@ -47,7 +47,7 @@ export function WhyFreeSection() {
             ))}
           </div>
 
-          <div className="mt-16 rounded-2xl border border-border bg-muted/30 p-8 backdrop-blur">
+          <div className="mt-16 rounded-2xl border border-[var(--border)] bg-[var(--muted)]/30 p-8 backdrop-blur">
             <p className="text-foreground/90 leading-relaxed">
               <span className="font-semibold text-foreground">No hidden agenda.</span>{" "}
               No premium version coming. No rug pull. Just developers helping developers ship faster.

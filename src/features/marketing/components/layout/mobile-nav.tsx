@@ -43,7 +43,7 @@ export function MobileNav({ className, isDarkBackground, isSignedIn }: MobileNav
             </NavLink>
           ))}
           
-          <hr className="my-2 border-border" />
+          <hr className="my-2 border-[var(--border)]" />
           
           {isSignedIn ? (
             <>
