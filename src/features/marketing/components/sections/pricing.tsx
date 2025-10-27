@@ -81,8 +81,8 @@ export function PricingSection() {
             {/* Pro Plan - Highlighted */}
             <Card className="relative overflow-hidden border shadow-xl bg-card/95 backdrop-blur-sm md:scale-105 card-flip-scroll scroll-delay-200">
               {/* Popular badge */}
-              <div className="absolute -right-12 top-5 rotate-45">
-                <Badge className="px-12 py-1 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold text-xs">
+              <div className="absolute -right-12 top-5 rotate-45 z-10">
+                <Badge className="px-12 py-1 font-semibold text-xs shadow-lg !bg-primary !text-primary-foreground border-0">
                   POPULAR
                 </Badge>
               </div>
@@ -91,18 +91,13 @@ export function PricingSection() {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary via-primary/50 to-secondary opacity-10 blur-2xl -z-10" />
 
               <CardHeader className="space-y-3 pt-5 pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl font-bold">
-                    Pro
-                  </CardTitle>
-                  <Badge variant="secondary" className="bg-success/15 text-success border-success/20 text-xs">
-                    FREE
-                  </Badge>
-                </div>
+                <CardTitle className="text-xl font-bold">
+                  Pro
+                </CardTitle>
 
                 <div className="space-y-2">
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                    <span className="text-4xl font-bold tracking-tight text-foreground">
                       $0
                     </span>
                     <span className="ml-2 text-sm text-muted-foreground">
