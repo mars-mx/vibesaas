@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { useUser } from "@clerk/nextjs";
-import { api } from "@/convex/_generated/api";
+import { api } from "../../convex/_generated/api";
 
 /**
  * Hook to get the current user from Convex database

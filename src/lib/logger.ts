@@ -58,6 +58,6 @@ export const logger = createLogger();
  * const log = logger.child({ module: 'auth', userId: session.userId });
  * log.info('User authenticated successfully');
  */
-export const createChildLogger = (context: Record<string, any>) => {
+export const createChildLogger = (context: Record<string, unknown>) => {
   return logger.child(context);
 };

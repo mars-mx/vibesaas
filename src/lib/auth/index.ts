@@ -6,27 +6,27 @@ import { redirect } from 'next/navigation';
  * Redirects to sign-in if not authenticated
  */
 export async function requireAuth() {
-  const { userId } = auth();
-  
+  const { userId } = await auth();
+
   if (!userId) {
     redirect('/sign-in');
   }
-  
+
   return userId;
 }
 
 /**
  * Get the current user ID if authenticated, null otherwise
  */
-export function getAuthUserId() {
-  const { userId } = auth();
+export async function getAuthUserId() {
+  const { userId } = await auth();
   return userId;
 }
 
 /**
  * Check if user is authenticated
  */
-export function isAuthenticated() {
-  const { userId } = auth();
+export async function isAuthenticated() {
+  const { userId } = await auth();
   return !!userId;
 }

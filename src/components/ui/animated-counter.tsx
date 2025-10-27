@@ -133,7 +133,7 @@ export const AnimatedCounter = memo(({
   const [, startTransition] = useTransition();
   const prefersReducedMotion = usePrefersReducedMotion();
   
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   const startTimeRef = useRef<number | null>(null);
   const hasStartedRef = useRef(false);
   const completedRef = useRef(false);

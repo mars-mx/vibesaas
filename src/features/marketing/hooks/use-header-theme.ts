@@ -24,7 +24,7 @@ export function useHeaderTheme(options: UseHeaderThemeOptions = {}) {
 
   const [isOverDark, setIsOverDark] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(0);
   const lastCheckTime = useRef(0);
 
   const calculateLuminance = useCallback((r: number, g: number, b: number): number => {

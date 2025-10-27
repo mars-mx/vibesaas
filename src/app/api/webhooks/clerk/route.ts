@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   }
 
   const eventType = evt.type;
-  const eventData = evt.data as any;
+  const eventData = evt.data as unknown as Record<string, unknown>;
 
   // Extract user ID based on event type
   const clerkId = eventType === 'session.created' 
@@ -57,6 +57,7 @@ export async function POST(req: Request) {
 
   try {
     // Call Convex to handle the webhook
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await fetchAction(api.users.handleClerkWebhook as any, {
       eventType,
       clerkId,

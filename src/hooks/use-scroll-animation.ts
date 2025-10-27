@@ -111,7 +111,7 @@ export function useParallaxScroll<T extends HTMLElement = HTMLDivElement>(
 ) {
   const elementRef = useRef<T>(null);
   const [transform, setTransform] = useState('');
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(0);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
