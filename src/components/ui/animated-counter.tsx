@@ -73,10 +73,15 @@ export interface AnimatedCounterProps
 }
 
 const formatNumber = (
-  num: number, 
+  num: number | undefined, 
   decimals: number, 
   separator?: string
 ): string => {
+  // Handle undefined or invalid numbers
+  if (num === undefined || num === null || isNaN(num)) {
+    return '0';
+  }
+  
   const fixed = num.toFixed(decimals);
   if (!separator) return fixed;
   
@@ -125,7 +130,7 @@ export const AnimatedCounter = memo(({
 }: AnimatedCounterProps) => {
   const [displayValue, setDisplayValue] = useState(preserveValue ? from : to);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const prefersReducedMotion = usePrefersReducedMotion();
   
   const animationRef = useRef<number>();

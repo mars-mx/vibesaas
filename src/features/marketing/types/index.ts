@@ -18,3 +18,14 @@ export interface Reason {
   readonly title: string;
   readonly description: string;
 }
+
+export interface ComparisonItem {
+  readonly text: string;
+  readonly highlight: boolean;
+}
+
+export interface ComparisonFeature {
+  readonly feature: string;
+  readonly ours: ComparisonItem;
+  readonly theirs: ComparisonItem;
+}

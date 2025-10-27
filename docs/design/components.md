@@ -52,20 +52,33 @@ interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  loading?: boolean
+  loadingText?: string
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading, loadingText, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        disabled={disabled || loading}
+        aria-busy={loading}
         {...props}
-      />
+      >
+        {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+        <span className={cn(loading && !loadingText && "sr-only")}>
+          {loading && loadingText ? loadingText : children}
+        </span>
+      </Comp>
     )
   }
 )
+
+// Usage examples:
+<Button loading loadingText="Saving...">Save</Button>
+<Button loading>Submit</Button> // Shows spinner only
 ```
 
 ## Utility Functions

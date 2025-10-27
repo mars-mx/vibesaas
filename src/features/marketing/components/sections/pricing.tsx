@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { Container } from "@/components/common/container";
@@ -12,22 +14,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useUser } from "@clerk/nextjs";
 
 export function PricingSection() {
+  const { isSignedIn } = useUser();
   return (
     <section id="pricing" className="relative py-24 sm:py-32 bg-gradient-to-b from-background via-background/95 to-background">
       <Container>
         <div className="mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl scroll-fade-in">
             Our Pricing Is Revolutionary
           </h2>
-          <p className="mt-4 text-lg text-foreground-muted">
+          <p className="mt-4 text-lg text-foreground-muted scroll-fade-in scroll-delay-200">
             Just kidding. There&apos;s no pricing. It&apos;s free.
           </p>
         </div>
 
         <div className="mx-auto mt-16">
-          <div className="relative mx-auto w-full sm:w-80 lg:w-96">
+          <div className="relative mx-auto w-full sm:w-80 lg:w-96 card-flip-scroll">
             {/* Subtle glow effect */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 via-primary/10 to-secondary/20 opacity-40 blur-xl" />
             
@@ -49,7 +53,7 @@ export function PricingSection() {
                 
                 <div className="space-y-2">
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                    <span className="text-4xl font-bold tracking-tight text-foreground">
                       $0
                     </span>
                     <span className="ml-1 text-lg text-muted-foreground">
@@ -62,10 +66,10 @@ export function PricingSection() {
                 </div>
               </CardHeader>
 
-              <CardContent className="border-t border-border/50 pt-4 pb-3">
-                <ul className="space-y-2.5" role="list" aria-label="Included features">
+              <CardContent className="border-t border-[var(--border)]/50 pt-4 pb-3">
+                <ul className="space-y-2.5 scroll-stagger" role="list" aria-label="Included features">
                   {PRICING_FEATURES.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2.5 group">
+                    <li key={index} className="flex items-start gap-2.5 group scroll-slide-left">
                       <div className="mt-0.5 rounded-full bg-primary/8 p-1 transition-colors group-hover:bg-primary/12">
                         <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                       </div>
@@ -77,23 +81,25 @@ export function PricingSection() {
                 </ul>
               </CardContent>
 
-              <CardFooter className="flex flex-col gap-2.5 border-t border-border/50 pt-4 pb-5">
+              <CardFooter className="flex flex-col gap-2.5 border-t border-[var(--border)]/50 pt-4 pb-5">
                 <Button className="w-full h-10 text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" size="default" asChild>
-                  <Link href="/sign-up" className="group">
-                    Get Started Free
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")} className="group">
+                    <span className="inline-flex items-center">
+                      {isSignedIn ? "Dashboard" : "Get Started Free"}
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
                   </Link>
                 </Button>
 
                 <p className="text-center text-xs text-muted-foreground">
-                  No credit card required. Ever.
+                  {isSignedIn ? "You're already in!" : "No credit card required. Ever."}
                 </p>
               </CardFooter>
             </Card>
           </div>
 
           {/* Social proof */}
-          <p className="mt-8 text-center text-sm text-muted-foreground">
+          <p className="mt-8 text-center text-sm text-muted-foreground scroll-fade-in scroll-delay-500">
             Join thousands of developers building with VibeSaaS
           </p>
         </div>

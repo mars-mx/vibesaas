@@ -42,7 +42,7 @@ Stop building auth, payments, and UI from scratch. Start shipping.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vibesaas.git
+git clone https://github.com/mars-mx/vibesaas.git
 cd vibesaas
 
 # Install dependencies
@@ -151,7 +151,7 @@ const checkoutUrl = await polar.generateCheckoutLink(ctx, {
 
 ### 6. Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/vibesaas)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mars-mx/vibesaas)
 
 ## 🤖 Claude-Native Development
 

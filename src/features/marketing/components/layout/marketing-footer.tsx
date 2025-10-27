@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/constants/site";
 
 export function MarketingFooter() {
   return (
-    <footer className="border-t border-border bg-muted/30">
+    <footer className="border-t border-[var(--border)] bg-[var(--muted)]/30">
       <Container>
         <div className="py-12 md:py-16">
           <div className="flex flex-col items-center justify-center space-y-4">
@@ -33,14 +33,6 @@ export function MarketingFooter() {
                 Twitter
               </Link>
               <Link
-                href={siteConfig.links.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Discord
-              </Link>
-              <Link
                 href="/docs"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
@@ -49,7 +41,16 @@ export function MarketingFooter() {
             </div>
             
             <p className="text-xs text-muted-foreground mt-4">
-              © {new Date().getFullYear()} VibeSaaS. MIT Licensed. Free forever.
+              © {new Date().getFullYear()} VibeSaaS.{" "}
+              <Link
+                href="https://github.com/mars-mx/vibesaas/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-foreground transition-colors"
+              >
+                MIT Licensed
+              </Link>
+              . Free forever.
             </p>
           </div>
         </div>

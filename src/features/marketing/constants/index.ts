@@ -1,5 +1,5 @@
 import { Shield, Zap, Heart, Coffee, Code, Database } from "lucide-react";
-import type { Feature, PricingFeature, Reason } from "../types";
+import type { Feature, PricingFeature, Reason, ComparisonFeature } from "../types";
 
 export const FEATURES: Feature[] = [
   {
@@ -82,4 +82,37 @@ export const WHY_FREE_REASONS: Reason[] = [
     title: "Developer love",
     description: "We'd rather see 10,000 new products launch than make money selling templates.",
   },
+];
+
+export const COMPARISON_FEATURES: ComparisonFeature[] = [
+  {
+    feature: "Price",
+    ours: { text: "Free Forever", highlight: true },
+    theirs: { text: "$299 - $999", highlight: false }
+  },
+  {
+    feature: "AI Integration",
+    ours: { text: "Native Claude AI", highlight: true },
+    theirs: { text: "DIY Integration", highlight: false }
+  },
+  {
+    feature: "Real-time Features",
+    ours: { text: "Built-in with Convex", highlight: true },
+    theirs: { text: "Extra Setup Required", highlight: false }
+  },
+  {
+    feature: "Payment Integration",
+    ours: { text: "Pre-configured Polar", highlight: true },
+    theirs: { text: "Manual Setup", highlight: false }
+  },
+  {
+    feature: "Production Ready",
+    ours: { text: "Day 1", highlight: true },
+    theirs: { text: "Weeks of Setup", highlight: false }
+  },
+  {
+    feature: "Community Support",
+    ours: { text: "Open Source", highlight: true },
+    theirs: { text: "Limited/Paid", highlight: false }
+  }
 ];

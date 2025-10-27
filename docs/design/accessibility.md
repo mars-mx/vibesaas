@@ -103,6 +103,9 @@ All interactive elements must be keyboard accessible:
   <TrashIcon aria-hidden="true" />
 </button>
 
+// Hide decorative icons from screen readers
+<Icon className="h-4 w-4" aria-hidden="true" />
+
 // Table headers
 <table>
   <thead>

@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils/cn";
+import { UserButton } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
 import { NavLink } from "@/features/marketing/components/ui/nav-link";
 
 interface MobileNavProps {
   className?: string;
+  isDarkBackground?: boolean;
+  isSignedIn?: boolean;
 }
 
 const navItems = [
@@ -13,10 +16,15 @@ const navItems = [
   { href: "#why-free", label: "Why Free?" },
 ];
 
-export function MobileNav({ className }: MobileNavProps) {
+export function MobileNav({ className, isDarkBackground, isSignedIn }: MobileNavProps) {
   return (
     <details className={cn("relative md:hidden group", className)}>
-      <summary className="list-none cursor-pointer inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary">
+      <summary className={cn(
+        "list-none cursor-pointer inline-flex items-center justify-center rounded-md p-2 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary",
+        isDarkBackground 
+          ? "text-white/90 hover:bg-white/10 hover:text-white" 
+          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+      )}>
         <Menu className="h-6 w-6 group-open:hidden" aria-hidden="true" />
         <X className="h-6 w-6 hidden group-open:block" aria-hidden="true" />
         <span className="sr-only">Toggle menu</span>
@@ -35,21 +43,44 @@ export function MobileNav({ className }: MobileNavProps) {
             </NavLink>
           ))}
           
-          <hr className="my-2 border-border" />
+          <hr className="my-2 border-[var(--border)]" />
           
-          <Link
-            href="/sign-in"
-            className="block px-4 py-2 text-base text-muted-foreground hover:text-foreground hover:bg-muted transition-colors rounded-md mx-2"
-          >
-            Sign In
-          </Link>
-          
-          <Link
-            href="/sign-up"
-            className="block px-4 py-2 mx-2 my-2 text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90 transition-colors rounded-md text-center"
-          >
-            Get Started Free
-          </Link>
+          {isSignedIn ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="block px-4 py-2 text-base text-muted-foreground hover:text-foreground hover:bg-muted transition-colors rounded-md mx-2"
+              >
+                Dashboard
+              </Link>
+              <div className="px-4 py-2 flex items-center gap-3">
+                <span className="text-sm text-muted-foreground">Account</span>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-7 w-7",
+                    },
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="block px-4 py-2 text-base text-muted-foreground hover:text-foreground hover:bg-muted transition-colors rounded-md mx-2"
+              >
+                Sign In
+              </Link>
+              
+              <Link
+                href="/sign-up"
+                className="block px-4 py-2 mx-2 my-2 text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90 transition-colors rounded-md text-center"
+              >
+                Get Started Free
+              </Link>
+            </>
+          )}
         </nav>
       </div>
       
