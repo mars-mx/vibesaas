@@ -3,16 +3,16 @@ import { WHY_FREE_REASONS } from "@/features/marketing/constants";
 
 export function WhyFreeSection() {
   return (
-    <section id="why-free" className="relative overflow-hidden bg-background py-24 sm:py-32">
+    <section id="why-free" className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background py-24 sm:py-32">
       <Container className="relative">
         <div className="mx-auto">
           <div className="text-center">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl scroll-fade-in">
               Why The{" "}
               <span className="relative inline-block">
-                <span 
+                <span
                   className="px-2 rounded"
-                  style={{ 
+                  style={{
                     backgroundColor: 'oklch(0.58 0.24 38)',
                     color: 'white'
                   }}
@@ -22,7 +22,7 @@ export function WhyFreeSection() {
               </span>{" "}
               Is This Free?
             </h2>
-            
+
             <p className="mx-auto mt-6 text-lg text-muted-foreground scroll-fade-in scroll-delay-200">
               Honest answer: We built this for ourselves and got tired of seeing developers get ripped off.
             </p>

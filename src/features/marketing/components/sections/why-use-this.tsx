@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export const WhyUseThisSection = memo(function WhyUseThisSection() {
   return (
-    <section id="features" className="py-24 sm:py-32 bg-background">
+    <section id="features" className="py-24 sm:py-32 bg-gradient-to-b from-background via-primary/5 to-background">
       <Container>
         <div className="mx-auto text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl scroll-fade-in">
