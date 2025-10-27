@@ -30,50 +30,38 @@ export function PricingSection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16">
-          <div className="relative mx-auto w-full sm:w-80 lg:w-96 card-flip-scroll">
-            {/* Subtle glow effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 via-primary/10 to-secondary/20 opacity-40 blur-xl" />
-            
-            {/* Refined Card */}
-            <Card className="relative overflow-hidden border shadow-lg bg-card/98 backdrop-blur-sm">
-              {/* Compact Popular badge */}
-              <div className="absolute -right-10 top-5 rotate-45">
-                <Badge className="px-10 py-1 bg-primary/10 text-primary border-primary/20 font-medium text-xs">
-                  POPULAR
-                </Badge>
-              </div>
-
+        <div className="mx-auto mt-16 px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center scroll-stagger">
+            {/* Starter Plan */}
+            <Card className="relative overflow-hidden border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all h-[420px] flex flex-col card-flip-scroll">
               <CardHeader className="space-y-3 pt-5 pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl font-bold">
-                    Free Forever
-                  </CardTitle>
-                </div>
-                
+                <CardTitle className="text-xl font-bold">
+                  Starter
+                </CardTitle>
+
                 <div className="space-y-2">
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold tracking-tight text-foreground">
+                    <span className="text-3xl font-bold tracking-tight">
                       $0
                     </span>
-                    <span className="ml-1 text-lg text-muted-foreground">
-                      /forever
+                    <span className="ml-1 text-sm text-muted-foreground">
+                      /month
                     </span>
                   </div>
-                  <CardDescription className="text-xs leading-relaxed">
-                    Everything you need to build and scale your SaaS. No hidden fees, no surprises.
+                  <CardDescription className="text-xs">
+                    Perfect for getting started
                   </CardDescription>
                 </div>
               </CardHeader>
 
-              <CardContent className="border-t border-[var(--border)]/50 pt-4 pb-3">
-                <ul className="space-y-2.5 scroll-stagger" role="list" aria-label="Included features">
-                  {PRICING_FEATURES.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2.5 group scroll-slide-left">
-                      <div className="mt-0.5 rounded-full bg-primary/8 p-1 transition-colors group-hover:bg-primary/12">
-                        <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+              <CardContent className="border-t border-border/50 pt-4 pb-3 flex-1">
+                <ul className="space-y-2" role="list">
+                  {PRICING_FEATURES.slice(0, 5).map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2 scroll-slide-left">
+                      <div className="mt-0.5 rounded-full bg-success/10 p-0.5">
+                        <Check className="h-3 w-3 text-success" aria-hidden="true" />
                       </div>
-                      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors leading-relaxed">
+                      <span className="text-xs text-muted-foreground">
                         {feature.text}
                       </span>
                     </li>
@@ -81,19 +69,125 @@ export function PricingSection() {
                 </ul>
               </CardContent>
 
-              <CardFooter className="flex flex-col gap-2.5 border-t border-[var(--border)]/50 pt-4 pb-5">
-                <Button className="w-full h-10 text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" size="default" asChild>
+              <CardFooter className="border-t border-border/50 pt-4 pb-5 mt-auto">
+                <Button variant="outline" className="w-full text-sm" asChild>
+                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}>
+                    {isSignedIn ? "Dashboard" : "Get Started"}
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Pro Plan - Highlighted */}
+            <Card className="relative overflow-hidden border shadow-xl bg-card/95 backdrop-blur-sm md:scale-105 card-flip-scroll scroll-delay-200">
+              {/* Popular badge */}
+              <div className="absolute -right-12 top-5 rotate-45">
+                <Badge className="px-12 py-1 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold text-xs">
+                  POPULAR
+                </Badge>
+              </div>
+
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary via-primary/50 to-secondary opacity-10 blur-2xl -z-10" />
+
+              <CardHeader className="space-y-3 pt-5 pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-xl font-bold">
+                    Pro
+                  </CardTitle>
+                  <Badge variant="secondary" className="bg-success/15 text-success border-success/20 text-xs">
+                    FREE
+                  </Badge>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-baseline">
+                    <span className="text-4xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                      $0
+                    </span>
+                    <span className="ml-2 text-sm text-muted-foreground">
+                      /forever
+                    </span>
+                  </div>
+                  <CardDescription className="text-xs">
+                    Everything you need to scale
+                  </CardDescription>
+                </div>
+              </CardHeader>
+
+              <CardContent className="border-t border-border/50 pt-4 pb-3">
+                <ul className="space-y-2" role="list">
+                  {PRICING_FEATURES.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2 group scroll-slide-left">
+                      <div className="mt-0.5 rounded-full bg-success/10 p-0.5 transition-colors group-hover:bg-success/15">
+                        <Check className="h-3 w-3 text-success" aria-hidden="true" />
+                      </div>
+                      <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
+                        {feature.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+
+              <CardFooter className="flex flex-col gap-2 border-t border-border/50 pt-4 pb-5">
+                <Button className="w-full text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" asChild>
                   <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")} className="group">
                     <span className="inline-flex items-center">
                       {isSignedIn ? "Dashboard" : "Get Started Free"}
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </Link>
                 </Button>
-
                 <p className="text-center text-xs text-muted-foreground">
-                  {isSignedIn ? "You're already in!" : "No credit card required. Ever."}
+                  {isSignedIn ? "You're already in!" : "No credit card required"}
                 </p>
+              </CardFooter>
+            </Card>
+
+            {/* Enterprise Plan */}
+            <Card className="relative overflow-hidden border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all h-[420px] flex flex-col card-flip-scroll scroll-delay-400">
+              <CardHeader className="space-y-3 pt-5 pb-3">
+                <CardTitle className="text-xl font-bold">
+                  Enterprise
+                </CardTitle>
+
+                <div className="space-y-2">
+                  <div className="flex items-baseline">
+                    <span className="text-3xl font-bold tracking-tight">
+                      $0
+                    </span>
+                    <span className="ml-1 text-sm text-muted-foreground">
+                      /forever
+                    </span>
+                  </div>
+                  <CardDescription className="text-xs">
+                    For large-scale applications
+                  </CardDescription>
+                </div>
+              </CardHeader>
+
+              <CardContent className="border-t border-border/50 pt-4 pb-3 flex-1">
+                <ul className="space-y-2" role="list">
+                  {[...PRICING_FEATURES.slice(0, 5), { text: "Priority support" }, { text: "Custom integrations" }].map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2 scroll-slide-left">
+                      <div className="mt-0.5 rounded-full bg-success/10 p-0.5">
+                        <Check className="h-3 w-3 text-success" aria-hidden="true" />
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {feature.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+
+              <CardFooter className="border-t border-border/50 pt-4 pb-5 mt-auto">
+                <Button variant="outline" className="w-full text-sm" asChild>
+                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}>
+                    {isSignedIn ? "Dashboard" : "Get Started"}
+                  </Link>
+                </Button>
               </CardFooter>
             </Card>
           </div>
