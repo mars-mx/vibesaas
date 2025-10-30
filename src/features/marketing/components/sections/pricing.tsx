@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Star } from "lucide-react";
 import { Container } from "@/components/common/container";
 import { PRICING_FEATURES } from "@/features/marketing/constants";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export function PricingSection() {
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl scroll-fade-in">
             Our Pricing Is Revolutionary
           </h2>
-          <p className="mt-4 text-lg text-foreground-muted scroll-fade-in scroll-delay-200">
+          <p className="mt-4 text-lg text-[var(--muted-foreground)] scroll-fade-in scroll-delay-200">
             Just kidding. There&apos;s no pricing. It&apos;s free.
           </p>
         </div>
@@ -191,6 +191,33 @@ export function PricingSection() {
           <p className="mt-8 text-center text-sm text-muted-foreground scroll-fade-in scroll-delay-500">
             Join thousands of developers building with VibeSaaS
           </p>
+
+          {/* Value comparison */}
+          <div className="mt-16 p-8 bg-gradient-to-r from-[var(--primary)]/5 to-[var(--secondary)]/5 rounded-2xl border border-[var(--border)] scroll-scale-up scroll-delay-600">
+            <h3 className="text-xl font-bold text-center mb-6 text-[var(--foreground)]">
+              What You&apos;d Pay Elsewhere
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <p className="text-[var(--muted-foreground)] mb-2">Shipfast</p>
+                <p className="text-3xl font-bold text-[var(--muted-foreground)] line-through">$299</p>
+              </div>
+              <div>
+                <p className="text-[var(--muted-foreground)] mb-2">SupaStarter</p>
+                <p className="text-3xl font-bold text-[var(--muted-foreground)] line-through">$499</p>
+              </div>
+              <div>
+                <p className="text-[var(--muted-foreground)] mb-2">Divjoy</p>
+                <p className="text-3xl font-bold text-[var(--muted-foreground)] line-through">$699</p>
+              </div>
+            </div>
+            <div className="mt-8 text-center">
+              <p className="text-2xl font-bold text-[var(--primary)] mb-2">Your Cost: $0</p>
+              <p className="text-sm text-[var(--muted-foreground)]">
+                MIT licensed. No limits. Forever.
+              </p>
+            </div>
+          </div>
         </div>
       </Container>
     </section>
