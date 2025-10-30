@@ -84,8 +84,8 @@ export function CTASection({ variant = 'default' }: CTASectionProps = {}) {
           </div>
 
           {/* Avatar stack with social proof */}
-          <div className="flex items-center justify-center scroll-fade-in scroll-delay-400">
-            <div className="flex -space-x-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 scroll-fade-in scroll-delay-400">
+            <div className="flex -space-x-4 shrink-0">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <Image
                   key={i}
@@ -97,7 +97,7 @@ export function CTASection({ variant = 'default' }: CTASectionProps = {}) {
                 />
               ))}
             </div>
-            <div className="ml-4 text-left">
+            <div className="text-center sm:text-left">
               <p className="font-semibold text-[var(--foreground)]">Join 5,000+ developers</p>
               <p className="text-sm text-[var(--muted-foreground)]">
                 who shipped faster and saved money
