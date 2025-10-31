@@ -19,5 +19,5 @@ export default async function DashboardRootLayout({
     redirect('/sign-in');
   }
 
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return <DashboardLayout hideSidebar={true}>{children}</DashboardLayout>;
 }

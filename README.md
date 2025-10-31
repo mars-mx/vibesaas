@@ -361,6 +361,7 @@ VibeSaaS follows modern web development standards for 2025:
 
 - [Setup Guide](./docs/setup.md)
 - [Clerk + Convex + Polar Integration](./docs/backend/integration.md)
+- [Email Setup with Resend](./docs/email/setup.md)
 - [Testing Guide](./docs/testing/basics.md)
 - [Claude Commands](./CLAUDE.md)
 - [API Reference](./docs/api.md)

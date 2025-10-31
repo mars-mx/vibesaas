@@ -195,6 +195,49 @@ const portalUrl = await polar.generateCustomerPortalUrl(ctx, {
 
 For complete integration details with Clerk authentication, see [Integration Guide](./docs/backend/integration.md).
 
+### Resend Email Setup
+
+This project uses **Resend** for transactional and marketing emails. Resend is already installed (`resend@6.3.0`).
+
+**Key Features:**
+- Transactional emails (password resets, confirmations)
+- Post-signup waitlist flows
+- Marketing campaigns and newsletters
+- React Email component support
+- Audience management for segmentation
+
+**Configuration:**
+```bash
+# .env.local
+RESEND_ACTIVATED=true  # Set to false to disable email sending
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+RESEND_FROM_NAME=YourApp
+RESEND_AUDIENCE_ID=aud_xxxxxxxxxxxx  # For waitlist/newsletter
+```
+
+**Quick Start:**
+```typescript
+import { resend } from '@/lib/email/resend';
+
+// Send email
+await resend.emails.send({
+  from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
+  to: ['user@example.com'],
+  subject: 'Welcome!',
+  react: WelcomeEmail({ firstName: 'User' }),
+});
+
+// Add to waitlist audience
+await resend.contacts.create({
+  email: 'user@example.com',
+  firstName: 'User',
+  audienceId: process.env.RESEND_AUDIENCE_ID,
+});
+```
+
+For complete setup instructions, domain verification, email templates, and waitlist flows, see [Email Setup Guide](./docs/email/setup.md).
+
 ### Environment Variables
 Create `.env.local` with required variables for Convex, Resend (email), and app configuration. Polar tokens are set via Convex environment variables.
 

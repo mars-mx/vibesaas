@@ -4,6 +4,7 @@ import { WebhookEvent } from '@clerk/nextjs/server';
 import { fetchAction } from 'convex/nextjs';
 import { api } from '../../../../../convex/_generated/api';
 import { logger } from '@/lib/logger';
+import { EmailService } from '@/lib/email';
 
 export async function POST(req: Request) {
   const log = logger.child({ module: 'clerk-webhook' });
@@ -41,18 +42,18 @@ export async function POST(req: Request) {
   }
 
   const eventType = evt.type;
-  const eventData = evt.data as unknown as Record<string, unknown>;
+  const eventData = evt.data as unknown as Record<string, any>;
 
   // Extract user ID based on event type
-  const clerkId = eventType === 'session.created' 
-    ? eventData.user_id 
+  const clerkId = eventType === 'session.created'
+    ? eventData.user_id
     : eventData.id;
 
   if (!clerkId) {
     log.error({ eventType }, 'Missing user ID in webhook event');
     return new Response('Missing user ID', { status: 400 });
   }
-  
+
   log.info({ eventType, clerkId }, 'Processing Clerk webhook event');
 
   try {
@@ -62,6 +63,28 @@ export async function POST(req: Request) {
       eventType,
       clerkId,
     });
+
+    // Send welcome email on user creation (only if RESEND_ACTIVATED=true)
+    if (eventType === 'user.created') {
+      const emailAddresses = eventData.email_addresses as Array<{ email_address?: string }> | undefined;
+      const email = emailAddresses?.[0]?.email_address;
+      const firstName = eventData.first_name;
+
+      if (email && typeof email === 'string') {
+        const emailResult = await EmailService.sendWelcomeEmail(
+          email,
+          typeof firstName === 'string' ? firstName : ''
+        );
+
+        if (emailResult.skipped) {
+          log.info({ email }, 'Welcome email skipped (RESEND_ACTIVATED=false)');
+        } else if (emailResult.success) {
+          log.info({ email, emailId: emailResult.data?.id }, 'Welcome email sent');
+        } else {
+          log.warn({ email, error: emailResult.error }, 'Failed to send welcome email');
+        }
+      }
+    }
 
     log.info({ eventType, clerkId }, 'Webhook processed successfully');
     return new Response('Success', { status: 200 });

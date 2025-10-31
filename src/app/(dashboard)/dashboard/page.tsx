@@ -1,49 +1,30 @@
 import { auth } from '@clerk/nextjs/server';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { clerkClient } from '@clerk/nextjs/server';
+import { WaitlistSignup } from './waitlist-signup';
+import { checkWaitlistStatusAction } from '@/lib/actions/email.actions';
 
 export default async function DashboardPage() {
   const { userId } = await auth();
 
+  if (!userId) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-[var(--muted-foreground)]">Please sign in to continue</p>
+      </div>
+    );
+  }
+
+  // Get user email from Clerk
+  const client = await clerkClient();
+  const user = await client.users.getUser(userId);
+  const email = user.emailAddresses[0]?.emailAddress || '';
+
+  // Check if user is already in waitlist
+  const { inWaitlist } = await checkWaitlistStatusAction();
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-[var(--muted-foreground)]">Welcome back! Here&apos;s an overview of your account.</p>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Status</CardTitle>
-            <CardDescription>Your current plan and usage</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">Active</p>
-            <p className="text-sm text-[var(--muted-foreground)]">Free tier</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-            <CardDescription>Your activity overview</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">0</p>
-            <p className="text-sm text-[var(--muted-foreground)]">Total actions</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>User ID</CardTitle>
-            <CardDescription>Your unique identifier</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm font-mono break-all">{userId}</p>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
+      <WaitlistSignup email={email} isInWaitlist={inWaitlist} />
     </div>
   );
 }
