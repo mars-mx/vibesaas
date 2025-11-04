@@ -4,7 +4,7 @@
  */
 
 import { PostHog } from 'posthog-node';
-import { AnalyticsConfigError } from './errors';
+import { logger } from '@/lib/logger';
 
 /**
  * Global type augmentation for PostHog server client
@@ -35,20 +35,28 @@ if (!globalForPostHogServer.__posthogServer) {
     const host = process.env.POSTHOG_HOST || 'https://app.posthog.com';
 
     if (!apiKey) {
-      throw new AnalyticsConfigError(
+      // Log configuration error but don't throw during module evaluation
+      // This allows the app to start and degrade gracefully
+      const errorMessage =
         'POSTHOG_API_KEY_SERVER environment variable is not set. ' +
-          'Please add it to your .env.local file.'
-      );
-    }
+        'Server-side analytics will be disabled. Please add it to your .env.local file.';
 
-    globalForPostHogServer.__posthogServer = new PostHog(apiKey, {
-      host,
-      flushAt: 20, // Flush after 20 events
-      flushInterval: 10000, // Flush every 10 seconds
-    });
+      console.error('[Analytics] Configuration Error:', errorMessage);
+      logger.error({ module: 'analytics-server' }, errorMessage);
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Analytics] PostHog server client initialized');
+      // Skip initialization - globalForPostHogServer.__posthogServer remains undefined
+      // Callers can detect absence via isServerAnalyticsEnabled() or null checks
+    } else {
+      // API key is present, initialize the client
+      globalForPostHogServer.__posthogServer = new PostHog(apiKey, {
+        host,
+        flushAt: 20, // Flush after 20 events
+        flushInterval: 10000, // Flush every 10 seconds
+      });
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[Analytics] PostHog server client initialized');
+      }
     }
   }
 }
