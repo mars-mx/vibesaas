@@ -52,8 +52,13 @@ Add the following variables to your `.env.local` file:
 
 ```bash
 # PostHog Analytics
-POSTHOG_ACTIVATED=true  # Master switch for all analytics (server + client)
-NEXT_PUBLIC_POSTHOG_ACTIVATED=true  # Client-side analytics activation
+# Master activation flag - enables both client and server analytics
+POSTHOG_ACTIVATED=true
+
+# Optional: Override client-side activation separately
+# If not set, falls back to POSTHOG_ACTIVATED
+# NEXT_PUBLIC_POSTHOG_ACTIVATED=true
+
 NEXT_PUBLIC_POSTHOG_API_KEY=phc_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com  # or https://eu.posthog.com for EU
 POSTHOG_API_KEY_SERVER=phx_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -67,13 +72,19 @@ NEXT_PUBLIC_POSTHOG_DISABLE_COOKIE=false  # Set true for cookieless mode
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `POSTHOG_ACTIVATED` | Master switch for server-side analytics | Yes | `false` |
-| `NEXT_PUBLIC_POSTHOG_ACTIVATED` | Master switch for client-side analytics | Yes | `false` |
+| `POSTHOG_ACTIVATED` | Master switch for both server and client analytics | Yes | `false` |
+| `NEXT_PUBLIC_POSTHOG_ACTIVATED` | Optional override for client-side only (falls back to `POSTHOG_ACTIVATED`) | No | Uses `POSTHOG_ACTIVATED` |
 | `NEXT_PUBLIC_POSTHOG_API_KEY` | Client-side API key | Yes | - |
 | `NEXT_PUBLIC_POSTHOG_HOST` | PostHog host URL | Yes | `https://app.posthog.com` |
 | `POSTHOG_API_KEY_SERVER` | Server-side API key | Yes | - |
 | `NEXT_PUBLIC_POSTHOG_ENABLE_SESSION_REPLAY` | Enable session recording | No | `false` |
 | `NEXT_PUBLIC_POSTHOG_DISABLE_COOKIE` | Disable cookies (use memory only) | No | `false` |
+
+**Activation Flag Behavior:**
+- If `NEXT_PUBLIC_POSTHOG_ACTIVATED` is set, it controls client-side analytics
+- If `NEXT_PUBLIC_POSTHOG_ACTIVATED` is not set, it falls back to `POSTHOG_ACTIVATED`
+- This allows you to use a single `POSTHOG_ACTIVATED=true` flag for unified configuration
+- Or set different values to control client and server independently
 
 ### 2. PostHog Host Selection
 

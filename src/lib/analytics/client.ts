@@ -18,11 +18,22 @@ const globalForPostHog = globalThis as typeof globalThis & {
 };
 
 /**
- * Check if analytics is enabled via POSTHOG_ACTIVATED flag
+ * Check if analytics is enabled via activation flags
+ * Checks NEXT_PUBLIC_POSTHOG_ACTIVATED first, then falls back to POSTHOG_ACTIVATED
+ * This allows a single flag to enable both client and server analytics
  * When disabled, all analytics operations will be no-ops
  */
 export const isAnalyticsEnabled = (): boolean => {
-  return process.env.NEXT_PUBLIC_POSTHOG_ACTIVATED === 'true';
+  const clientFlag = process.env.NEXT_PUBLIC_POSTHOG_ACTIVATED;
+  const serverFlag = process.env.POSTHOG_ACTIVATED;
+
+  // Check client-specific flag first
+  if (clientFlag !== undefined) {
+    return clientFlag === 'true';
+  }
+
+  // Fall back to server flag for unified configuration
+  return serverFlag === 'true';
 };
 
 /**
