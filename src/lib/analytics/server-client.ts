@@ -4,7 +4,6 @@
  */
 
 import { PostHog } from 'posthog-node';
-import { logger } from '@/lib/logger';
 
 /**
  * Global type augmentation for PostHog server client
@@ -37,12 +36,10 @@ if (!globalForPostHogServer.__posthogServer) {
     if (!apiKey) {
       // Log configuration error but don't throw during module evaluation
       // This allows the app to start and degrade gracefully
-      const errorMessage =
-        'POSTHOG_API_KEY_SERVER environment variable is not set. ' +
-        'Server-side analytics will be disabled. Please add it to your .env.local file.';
-
-      console.error('[Analytics] Configuration Error:', errorMessage);
-      logger.error({ module: 'analytics-server' }, errorMessage);
+      console.error(
+        '[Analytics] POSTHOG_API_KEY_SERVER environment variable is not set. ' +
+        'Server-side analytics will be disabled. Please add it to your .env.local file.'
+      );
 
       // Skip initialization - globalForPostHogServer.__posthogServer remains undefined
       // Callers can detect absence via isServerAnalyticsEnabled() or null checks
