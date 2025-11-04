@@ -240,7 +240,7 @@ For complete setup instructions, domain verification, email templates, and waitl
 
 ### PostHog Analytics
 
-This project uses **PostHog** for privacy-friendly product analytics, feature flags, and session replay. PostHog is already installed (`posthog-js@1.x.x`, `posthog-node@4.x.x`).
+This project uses **PostHog** for privacy-friendly product analytics, feature flags, and session replay. PostHog is already installed (`posthog-js@^1.285.1`, `posthog-node@^5.11.0`).
 
 **Key Features:**
 - Product analytics and event tracking

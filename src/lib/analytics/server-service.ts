@@ -305,9 +305,10 @@ export class ServerAnalyticsService {
       interval: 'month' | 'year';
     }
   ): Promise<void> {
-    // Determine if upgrade or downgrade
-    // This is simplified - implement proper logic based on plan tiers
-    const isUpgrade = true; // Replace with actual comparison logic
+    // TODO: Implement proper plan hierarchy comparison logic
+    // Define your plan tiers (e.g., free < starter < pro < enterprise)
+    // and compare oldPlan vs newPlan to determine if this is an upgrade or downgrade
+    const isUpgrade = true; // FIXME: Replace with actual comparison logic based on your pricing tiers
 
     if (isUpgrade) {
       await this.trackSubscriptionUpgraded(userId, {

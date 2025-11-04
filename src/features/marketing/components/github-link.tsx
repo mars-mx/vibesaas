@@ -13,6 +13,7 @@ interface GitHubLinkProps {
   variant?: "default" | "outline" | "ghost" | "link" | "destructive" | "secondary";
   size?: "default" | "sm" | "lg" | "icon";
   showIcon?: boolean;
+  analyticsLocation?: string;
 }
 
 export function GitHubLink({
@@ -20,12 +21,13 @@ export function GitHubLink({
   children = "Star on GitHub",
   variant = "outline",
   size = "lg",
-  showIcon = true
+  showIcon = true,
+  analyticsLocation = 'hero_section'
 }: GitHubLinkProps) {
   const analytics = useAnalytics();
 
   const handleClick = () => {
-    analytics.trackGitHubLinkClick('hero_section');
+    analytics.trackGitHubLinkClick(analyticsLocation);
   };
 
   return (

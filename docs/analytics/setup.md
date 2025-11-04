@@ -52,7 +52,8 @@ Add the following variables to your `.env.local` file:
 
 ```bash
 # PostHog Analytics
-POSTHOG_ACTIVATED=true  # Set to false to disable analytics globally
+POSTHOG_ACTIVATED=true  # Master switch for all analytics (server + client)
+NEXT_PUBLIC_POSTHOG_ACTIVATED=true  # Client-side analytics activation
 NEXT_PUBLIC_POSTHOG_API_KEY=phc_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com  # or https://eu.posthog.com for EU
 POSTHOG_API_KEY_SERVER=phx_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -66,7 +67,8 @@ NEXT_PUBLIC_POSTHOG_DISABLE_COOKIE=false  # Set true for cookieless mode
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `POSTHOG_ACTIVATED` | Master switch to enable/disable analytics | Yes | `false` |
+| `POSTHOG_ACTIVATED` | Master switch for server-side analytics | Yes | `false` |
+| `NEXT_PUBLIC_POSTHOG_ACTIVATED` | Master switch for client-side analytics | Yes | `false` |
 | `NEXT_PUBLIC_POSTHOG_API_KEY` | Client-side API key | Yes | - |
 | `NEXT_PUBLIC_POSTHOG_HOST` | PostHog host URL | Yes | `https://app.posthog.com` |
 | `POSTHOG_API_KEY_SERVER` | Server-side API key | Yes | - |

@@ -23,14 +23,15 @@ import { AnalyticsService } from '../service';
 export function usePageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const searchParamsString = searchParams?.toString();
 
   useEffect(() => {
     if (pathname) {
-      const url = searchParams?.toString()
-        ? `${pathname}?${searchParams.toString()}`
+      const url = searchParamsString
+        ? `${pathname}?${searchParamsString}`
         : pathname;
 
       AnalyticsService.trackPageView(url);
     }
-  }, [pathname, searchParams]);
+  }, [pathname, searchParamsString]);
 }
