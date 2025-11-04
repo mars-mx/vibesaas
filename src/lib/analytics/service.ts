@@ -56,12 +56,19 @@ export class AnalyticsService {
         console.log('[Analytics] Event tracked:', eventName, properties);
       }
     } catch (error) {
+      // Log error but never break user flows with analytics failures
       console.error('[Analytics] Failed to track event:', eventName, error);
-      throw new AnalyticsTrackingError(
-        `Failed to track event: ${eventName}`,
-        eventName,
-        error as Error
-      );
+
+      // Only throw in development to aid debugging
+      if (process.env.NODE_ENV === 'development') {
+        throw new AnalyticsTrackingError(
+          `Failed to track event: ${eventName}`,
+          eventName,
+          error as Error
+        );
+      }
+
+      // Silently fail in production - analytics should never break the app
     }
   }
 
@@ -90,14 +97,19 @@ export class AnalyticsService {
         console.log('[Analytics] User identified:', userId, traits);
       }
     } catch (error) {
-      if (error instanceof Error && error.name === 'ZodError') {
+      // Log validation or tracking errors but never break user flows
+      console.error('[Analytics] Failed to identify user:', userId, error);
+
+      // Only throw in development to aid debugging
+      if (process.env.NODE_ENV === 'development' && error instanceof Error && error.name === 'ZodError') {
         throw new AnalyticsValidationError(
           'Invalid user traits',
           error,
           error
         );
       }
-      console.error('[Analytics] Failed to identify user:', userId, error);
+
+      // Silently fail in production
     }
   }
 
@@ -226,14 +238,19 @@ export class AnalyticsService {
 
       this.track(MARKETING_EVENTS.CTA_CLICKED, properties);
     } catch (error) {
-      if (error instanceof Error && error.name === 'ZodError') {
+      // Log validation errors but never break user flows
+      console.error('[Analytics] Failed to track CTA click:', location, text, error);
+
+      // Only throw in development to aid debugging
+      if (process.env.NODE_ENV === 'development' && error instanceof Error && error.name === 'ZodError') {
         throw new AnalyticsValidationError(
           'Invalid CTA click properties',
           error,
           error
         );
       }
-      throw error;
+
+      // Silently fail in production
     }
   }
 
@@ -450,14 +467,19 @@ export class AnalyticsService {
 
       this.track(ENGAGEMENT_EVENTS.PAGE_VIEWED, properties);
     } catch (error) {
-      if (error instanceof Error && error.name === 'ZodError') {
+      // Log validation errors but never break user flows
+      console.error('[Analytics] Failed to track page view:', path, error);
+
+      // Only throw in development to aid debugging
+      if (process.env.NODE_ENV === 'development' && error instanceof Error && error.name === 'ZodError') {
         throw new AnalyticsValidationError(
           'Invalid page view properties',
           error,
           error
         );
       }
-      throw error;
+
+      // Silently fail in production
     }
   }
 }
