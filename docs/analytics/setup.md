@@ -32,8 +32,8 @@ PostHog packages are already installed in this project:
 ```json
 {
   "dependencies": {
-    "posthog-js": "^1.x.x",
-    "posthog-node": "^4.x.x"
+    "posthog-js": "^1.285.1",
+    "posthog-node": "^5.11.0"
   }
 }
 ```
