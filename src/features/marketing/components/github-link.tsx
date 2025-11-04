@@ -5,7 +5,7 @@ import { Code } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/constants/site";
 import { cn } from "@/lib/utils";
-import { useAnalytics } from "@/lib/analytics";
+import { useAnalytics } from "@/lib/analytics/hooks/use-analytics";
 
 interface GitHubLinkProps {
   className?: string;

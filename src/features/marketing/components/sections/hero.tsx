@@ -13,7 +13,7 @@ import { HeroTitle, AnimatedDiv, scaleInVariants } from "@/components/ui/motion"
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { useUser } from "@clerk/nextjs";
 import { useRef } from "react";
-import { useAnalytics } from "@/lib/analytics";
+import { useAnalytics } from "@/lib/analytics/hooks/use-analytics";
 
 
 export const HeroSection = memo(function HeroSection() {

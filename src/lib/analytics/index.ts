@@ -1,17 +1,16 @@
 /**
- * Analytics Module - Client-Side Only
+ * Analytics Module - Client-Side Service Layer
  *
- * Main exports for PostHog analytics integration (client-side).
- * For server-side analytics, import from '@/lib/analytics/server'
+ * Main exports for PostHog analytics integration (client-side service and utilities).
+ *
+ * IMPORTANT: This barrel does NOT export React hooks to maintain server/client boundaries.
+ * - For React hooks: import from '@/lib/analytics/hooks/use-analytics' or '@/lib/analytics/hooks/use-page-view'
+ * - For server-side analytics: import from '@/lib/analytics/server'
  */
 
-// Client-side exports
+// Client-side service and utilities
 export { AnalyticsService } from './service';
 export { getPostHog, initPostHog, isAnalyticsEnabled } from './client';
-
-// Hooks
-export { useAnalytics } from './hooks/use-analytics';
-export { usePageView } from './hooks/use-page-view';
 
 // Events
 export * from './events';

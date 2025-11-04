@@ -265,7 +265,7 @@ NEXT_PUBLIC_POSTHOG_DISABLE_COOKIE=false  # true for cookieless mode
 
 **Quick Start - Client-Side:**
 ```typescript
-import { useAnalytics } from '@/lib/analytics';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 function MyComponent() {
   const analytics = useAnalytics();

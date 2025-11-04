@@ -263,7 +263,7 @@ if (process.env.NODE_ENV === 'production') {
 - ✅ Browser-specific data
 
 ```typescript
-import { useAnalytics } from '@/lib/analytics';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 function Component() {
   const analytics = useAnalytics();

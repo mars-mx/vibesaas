@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { addToWaitlistAction, removeFromWaitlistAction } from '@/lib/actions/email.actions';
-import { useAnalytics } from '@/lib/analytics';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 interface WaitlistSignupProps {
   email: string;

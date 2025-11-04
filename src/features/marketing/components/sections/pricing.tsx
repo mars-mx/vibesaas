@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useUser } from "@clerk/nextjs";
-import { useAnalytics } from "@/lib/analytics";
+import { useAnalytics } from "@/lib/analytics/hooks/use-analytics";
 
 export function PricingSection() {
   const { isSignedIn } = useUser();

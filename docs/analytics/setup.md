@@ -119,7 +119,12 @@ export default function RootLayout({ children }) {
 
 **Client-Side (Components, Hooks):**
 ```typescript
-import { useAnalytics } from '@/lib/analytics';
+// For React hooks
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
+import { usePageView } from '@/lib/analytics/hooks/use-page-view';
+
+// For direct service usage (non-hook)
+import { AnalyticsService } from '@/lib/analytics';
 ```
 
 **Server-Side (API Routes, Server Actions, Webhooks):**
@@ -254,7 +259,7 @@ NEXT_PUBLIC_POSTHOG_API_KEY=phc_prod_key
 
 ```tsx
 // In any component
-import { useAnalytics } from '@/lib/analytics';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 function TestComponent() {
   const analytics = useAnalytics();

@@ -215,7 +215,7 @@ Allow users to opt out:
 
 ```typescript
 // In user settings component
-import { useAnalytics } from '@/lib/analytics';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 function PrivacySettings() {
   const analytics = useAnalytics();
