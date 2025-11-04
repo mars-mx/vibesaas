@@ -7,6 +7,52 @@ import { logger } from '@/lib/logger';
 import type { RetryConfig } from '../types';
 
 /**
+ * Type guard to check if value has a status code property
+ */
+function hasStatusCode(error: unknown): error is { statusCode: number } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'statusCode' in error &&
+    typeof (error as { statusCode: unknown }).statusCode === 'number'
+  );
+}
+
+/**
+ * Type guard to check if value has a response with status
+ */
+function hasResponseStatus(error: unknown): error is { response: { status: number } } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'response' in error &&
+    typeof (error as { response: unknown }).response === 'object' &&
+    (error as { response: { status?: unknown } }).response !== null &&
+    'status' in (error as { response: { status: unknown } }).response &&
+    typeof (error as { response: { status: unknown } }).response.status === 'number'
+  );
+}
+
+/**
+ * Type guard to check if value has a code property
+ */
+function hasCode(error: unknown): error is { code: string } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    typeof (error as { code: unknown }).code === 'string'
+  );
+}
+
+/**
+ * Type guard to check if error is Error instance
+ */
+function isError(error: unknown): error is Error {
+  return error instanceof Error;
+}
+
+/**
  * Default retry configuration
  * - 3 retries maximum
  * - 1 second base delay
@@ -60,26 +106,21 @@ function isRetryableError(
   retryableStatusCodes: number[]
 ): boolean {
   // Check for statusCode on error object
-  if (error.statusCode && retryableStatusCodes.includes(error.statusCode)) {
+  if (hasStatusCode(error) && retryableStatusCodes.includes(error.statusCode)) {
     return true;
   }
 
   // Check for status in response object (Axios-style)
-  if (
-    error.response?.status &&
-    retryableStatusCodes.includes(error.response.status)
-  ) {
+  if (hasResponseStatus(error) && retryableStatusCodes.includes(error.response.status)) {
     return true;
   }
 
   // Network errors that should be retried
-  if (
-    error.code === 'ECONNRESET' ||
-    error.code === 'ETIMEDOUT' ||
-    error.code === 'ENOTFOUND' ||
-    error.code === 'ECONNREFUSED'
-  ) {
-    return true;
+  if (hasCode(error)) {
+    const networkErrorCodes = ['ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND', 'ECONNREFUSED'];
+    if (networkErrorCodes.includes(error.code)) {
+      return true;
+    }
   }
 
   return false;
@@ -113,7 +154,7 @@ export async function withRetry<T>(
     ...config,
   };
 
-  let lastError: Error;
+  let lastError: unknown;
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
@@ -125,6 +166,14 @@ export async function withRetry<T>(
       const isRetryable = isRetryableError(error, retryableStatusCodes);
       const isLastAttempt = attempt === maxRetries;
 
+      // Extract error details with type guards
+      const errorMessage = isError(error) ? error.message : String(error);
+      const statusCode = hasStatusCode(error)
+        ? error.statusCode
+        : hasResponseStatus(error)
+        ? error.response.status
+        : undefined;
+
       // If not retryable or last attempt, throw immediately
       if (!isRetryable || isLastAttempt) {
         logger.error(
@@ -132,8 +181,8 @@ export async function withRetry<T>(
             context,
             attempt: attempt + 1,
             maxRetries: maxRetries + 1,
-            error: error.message,
-            statusCode: error.statusCode || error.response?.status,
+            error: errorMessage,
+            statusCode,
             retryable: isRetryable,
           },
           'Operation failed'
@@ -150,8 +199,8 @@ export async function withRetry<T>(
           attempt: attempt + 1,
           maxRetries: maxRetries + 1,
           nextRetryIn: `${delay}ms`,
-          statusCode: error.statusCode || error.response?.status,
-          error: error.message,
+          statusCode,
+          error: errorMessage,
         },
         'Retrying operation after error'
       );

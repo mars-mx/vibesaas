@@ -14,6 +14,23 @@ import { WelcomeEmail, WaitlistEmail } from '@/components/emails';
 const emailLogger = logger.child({ module: 'email-service' });
 
 /**
+ * Type guard to check if error is an Error object
+ */
+function isError(error: unknown): error is Error {
+  return error instanceof Error;
+}
+
+/**
+ * Get error message from unknown error
+ */
+function getErrorMessage(error: unknown): string {
+  if (isError(error)) {
+    return error.message;
+  }
+  return String(error);
+}
+
+/**
  * Email Service class
  * High-level business logic for email operations
  * Handles activation checks, validation, and orchestrates repository calls
@@ -62,21 +79,23 @@ export class EmailService {
       // Send email via repository
       return await EmailRepository.sendEmail(validated);
     } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error);
+
       // Handle validation errors
-      if (error.name === 'ZodError') {
+      if (isError(error) && error.name === 'ZodError') {
         emailLogger.error(
-          { error: error.message, email },
+          { error: errorMessage, email },
           'Validation error in sendWelcomeEmail'
         );
-        throw new ValidationError(error.message);
+        throw new ValidationError(errorMessage);
       }
 
       // Log and return error
       emailLogger.error(
-        { error: error.message, email, firstName },
+        { error: errorMessage, email, firstName },
         'Failed to send welcome email'
       );
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -115,19 +134,20 @@ export class EmailService {
 
       return await EmailRepository.sendEmail(validated);
     } catch (error: unknown) {
-      if (error.name === 'ZodError') {
+      const errorMessage = getErrorMessage(error);
+      if (isError(error) && error.name === 'ZodError') {
         emailLogger.error(
-          { error: error.message, email: data.email },
+          { error: errorMessage, email: data.email },
           'Validation error in sendWaitlistEmail'
         );
-        throw new ValidationError(error.message);
+        throw new ValidationError(errorMessage);
       }
 
       emailLogger.error(
-        { error: error.message, email: data.email },
+        { error: errorMessage, email: data.email },
         'Failed to send waitlist email'
       );
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -187,19 +207,20 @@ export class EmailService {
         firstName: firstName || 'there',
       });
     } catch (error: unknown) {
-      if (error.name === 'ZodError') {
+      const errorMessage = getErrorMessage(error);
+      if (isError(error) && error.name === 'ZodError') {
         emailLogger.error(
-          { error: error.message, email },
+          { error: errorMessage, email },
           'Validation error in addToWaitlist'
         );
-        throw new ValidationError(error.message);
+        throw new ValidationError(errorMessage);
       }
 
       emailLogger.error(
-        { error: error.message, email, firstName },
+        { error: errorMessage, email, firstName },
         'Failed to add to waitlist'
       );
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -221,8 +242,9 @@ export class EmailService {
       const audienceId = getAudienceId();
       return await EmailRepository.contactExists(email, audienceId);
     } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error);
       emailLogger.error(
-        { error: error.message, email },
+        { error: errorMessage, email },
         'Failed to check waitlist status'
       );
       return false;
@@ -256,11 +278,12 @@ export class EmailService {
         audienceId,
       });
     } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error);
       emailLogger.error(
-        { error: error.message, email },
+        { error: errorMessage, email },
         'Failed to remove from waitlist'
       );
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -300,19 +323,20 @@ export class EmailService {
       const validated = sendEmailSchema.parse(params);
       return await EmailRepository.sendEmail(validated);
     } catch (error: unknown) {
-      if (error.name === 'ZodError') {
+      const errorMessage = getErrorMessage(error);
+      if (isError(error) && error.name === 'ZodError') {
         emailLogger.error(
-          { error: error.message, to: params.to },
+          { error: errorMessage, to: params.to },
           'Validation error in sendTransactionalEmail'
         );
-        throw new ValidationError(error.message);
+        throw new ValidationError(errorMessage);
       }
 
       emailLogger.error(
-        { error: error.message, to: params.to },
+        { error: errorMessage, to: params.to },
         'Failed to send transactional email'
       );
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -355,19 +379,20 @@ export class EmailService {
 
       return await EmailRepository.sendBatchEmails(validatedEmails);
     } catch (error: unknown) {
-      if (error.name === 'ZodError') {
+      const errorMessage = getErrorMessage(error);
+      if (isError(error) && error.name === 'ZodError') {
         emailLogger.error(
-          { error: error.message, count: emails.length },
+          { error: errorMessage, count: emails.length },
           'Validation error in sendBatchEmails'
         );
-        throw new ValidationError(error.message);
+        throw new ValidationError(errorMessage);
       }
 
       emailLogger.error(
-        { error: error.message, count: emails.length },
+        { error: errorMessage, count: emails.length },
         'Failed to send batch emails'
       );
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 }

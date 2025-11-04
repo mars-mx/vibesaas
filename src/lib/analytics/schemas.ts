@@ -10,8 +10,8 @@ import { z } from 'zod';
  * Base event properties schema
  */
 export const baseEventPropertiesSchema = z.object({
-  $set: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
-  $set_once: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
+  $set: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
+  $set_once: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
 }).passthrough(); // Allow additional properties
 
 /**
