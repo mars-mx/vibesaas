@@ -379,7 +379,7 @@ export const updateAnalyticsConsent = mutation({
 
 Add to your privacy policy:
 
-```
+```markdown
 ### Analytics
 
 We use PostHog, a privacy-friendly analytics platform, to understand how users
@@ -399,8 +399,7 @@ We DO NOT collect:
 You can opt out of analytics at any time in your account settings.
 
 Data is stored on PostHog's EU servers (Frankfurt, Germany) and retained for
-90 days. For more information, see PostHog's privacy policy:
-https://posthog.com/privacy
+90 days. For more information, see [PostHog's privacy policy](https://posthog.com/privacy).
 ```
 
 ## EU Data Residency

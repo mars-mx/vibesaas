@@ -3,6 +3,7 @@
  * Provides high-level email functionality with validation and activation checks
  */
 
+import { ZodError } from 'zod';
 import { EmailRepository } from './repository';
 import { isEmailEnabled, getAudienceId } from './client';
 import { sendEmailSchema, addContactSchema } from './schemas';
@@ -82,7 +83,7 @@ export class EmailService {
       const errorMessage = getErrorMessage(error);
 
       // Handle validation errors
-      if (isError(error) && error.name === 'ZodError') {
+      if (error instanceof ZodError) {
         emailLogger.error(
           { error: errorMessage, email },
           'Validation error in sendWelcomeEmail'
@@ -135,7 +136,7 @@ export class EmailService {
       return await EmailRepository.sendEmail(validated);
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
-      if (isError(error) && error.name === 'ZodError') {
+      if (error instanceof ZodError) {
         emailLogger.error(
           { error: errorMessage, email: data.email },
           'Validation error in sendWaitlistEmail'
@@ -208,7 +209,7 @@ export class EmailService {
       });
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
-      if (isError(error) && error.name === 'ZodError') {
+      if (error instanceof ZodError) {
         emailLogger.error(
           { error: errorMessage, email },
           'Validation error in addToWaitlist'
@@ -324,7 +325,7 @@ export class EmailService {
       return await EmailRepository.sendEmail(validated);
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
-      if (isError(error) && error.name === 'ZodError') {
+      if (error instanceof ZodError) {
         emailLogger.error(
           { error: errorMessage, to: params.to },
           'Validation error in sendTransactionalEmail'
@@ -380,7 +381,7 @@ export class EmailService {
       return await EmailRepository.sendBatchEmails(validatedEmails);
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
-      if (isError(error) && error.name === 'ZodError') {
+      if (error instanceof ZodError) {
         emailLogger.error(
           { error: errorMessage, count: emails.length },
           'Validation error in sendBatchEmails'
