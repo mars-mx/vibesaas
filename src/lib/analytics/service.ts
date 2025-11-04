@@ -203,15 +203,26 @@ export class AnalyticsService {
    */
   static trackCTAClick(location: string, text: string, additionalProps?: EventProperties): void {
     try {
-      const properties: CTAClickProperties = {
+      // Extract section from additionalProps if present (it's part of the CTA schema)
+      const { section, ...restAdditionalProps } = additionalProps ?? {};
+
+      // Build base CTA properties with core fields + section
+      const baseProperties: CTAClickProperties = {
         cta_location: location,
         cta_text: text,
         page_path: typeof window !== 'undefined' ? window.location.pathname : undefined,
-        ...additionalProps,
+        ...(typeof section === 'string' ? { section } : {}),
       };
 
-      // Validate properties
-      ctaClickPropertiesSchema.parse(properties);
+      // Validate only the CTA-specific fields
+      ctaClickPropertiesSchema.parse(baseProperties);
+
+      // Merge validated base properties with remaining additional properties
+      // This allows extra metadata ($set, campaign context, etc.) to pass through
+      const properties: EventProperties = {
+        ...restAdditionalProps,
+        ...baseProperties,
+      };
 
       this.track(MARKETING_EVENTS.CTA_CLICKED, properties);
     } catch (error) {
