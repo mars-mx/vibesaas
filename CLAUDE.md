@@ -253,13 +253,7 @@ This project uses **PostHog** for privacy-friendly product analytics, feature fl
 **Configuration:**
 ```bash
 # .env.local
-# Master activation flag - enables both client and server analytics
-POSTHOG_ACTIVATED=true
-
-# Optional: Override client-side activation separately
-# If not set, falls back to POSTHOG_ACTIVATED
-# NEXT_PUBLIC_POSTHOG_ACTIVATED=true
-
+NEXT_PUBLIC_POSTHOG_ACTIVATED=true
 NEXT_PUBLIC_POSTHOG_API_KEY=phc_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com  # or https://eu.posthog.com
 POSTHOG_API_KEY_SERVER=phx_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -268,12 +262,6 @@ POSTHOG_API_KEY_SERVER=phx_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_POSTHOG_ENABLE_SESSION_REPLAY=false
 NEXT_PUBLIC_POSTHOG_DISABLE_COOKIE=false  # true for cookieless mode
 ```
-
-**Activation Flags Behavior:**
-- `POSTHOG_ACTIVATED=true` enables both client and server analytics (unified configuration)
-- `NEXT_PUBLIC_POSTHOG_ACTIVATED` (optional) can override client-side behavior separately
-- If `NEXT_PUBLIC_POSTHOG_ACTIVATED` is not set, it falls back to `POSTHOG_ACTIVATED`
-- This allows single-flag configuration while maintaining flexibility
 
 **Quick Start - Client-Side:**
 ```typescript

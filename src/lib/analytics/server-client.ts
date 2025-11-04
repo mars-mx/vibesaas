@@ -17,7 +17,7 @@ const globalForPostHogServer = globalThis as typeof globalThis & {
  * Check if server-side analytics is enabled
  */
 export const isServerAnalyticsEnabled = (): boolean => {
-  return process.env.POSTHOG_ACTIVATED === 'true';
+  return process.env.NEXT_PUBLIC_POSTHOG_ACTIVATED === 'true';
 };
 
 /**
