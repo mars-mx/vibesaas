@@ -56,7 +56,7 @@ function calculateDelayWithJitter(
  * @returns true if error should be retried, false otherwise
  */
 function isRetryableError(
-  error: any,
+  error: unknown,
   retryableStatusCodes: number[]
 ): boolean {
   // Check for statusCode on error object
@@ -119,7 +119,7 @@ export async function withRetry<T>(
     try {
       // Attempt the operation
       return await operation();
-    } catch (error: any) {
+    } catch (error: unknown) {
       lastError = error;
 
       const isRetryable = isRetryableError(error, retryableStatusCodes);
@@ -180,7 +180,7 @@ export async function withRetry<T>(
  *   'sendEmail'
  * );
  */
-export function makeRetryable<TArgs extends any[], TReturn>(
+export function makeRetryable<TArgs extends unknown[], TReturn>(
   fn: (...args: TArgs) => Promise<TReturn>,
   context: string,
   config?: Partial<RetryConfig>

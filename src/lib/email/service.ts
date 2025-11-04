@@ -7,7 +7,7 @@ import { EmailRepository } from './repository';
 import { isEmailEnabled, getAudienceId } from './client';
 import { sendEmailSchema, addContactSchema } from './schemas';
 import { logger } from '@/lib/logger';
-import type { EmailResponse, WelcomeEmailData, WaitlistEmailData } from './types';
+import type { EmailResponse, WaitlistEmailData } from './types';
 import { ValidationError } from './errors';
 import { WelcomeEmail, WaitlistEmail } from '@/components/emails';
 
@@ -61,7 +61,7 @@ export class EmailService {
 
       // Send email via repository
       return await EmailRepository.sendEmail(validated);
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Handle validation errors
       if (error.name === 'ZodError') {
         emailLogger.error(
@@ -114,7 +114,7 @@ export class EmailService {
       });
 
       return await EmailRepository.sendEmail(validated);
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.name === 'ZodError') {
         emailLogger.error(
           { error: error.message, email: data.email },
@@ -186,7 +186,7 @@ export class EmailService {
         email,
         firstName: firstName || 'there',
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.name === 'ZodError') {
         emailLogger.error(
           { error: error.message, email },
@@ -220,7 +220,7 @@ export class EmailService {
     try {
       const audienceId = getAudienceId();
       return await EmailRepository.contactExists(email, audienceId);
-    } catch (error: any) {
+    } catch (error: unknown) {
       emailLogger.error(
         { error: error.message, email },
         'Failed to check waitlist status'
@@ -255,7 +255,7 @@ export class EmailService {
         email,
         audienceId,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       emailLogger.error(
         { error: error.message, email },
         'Failed to remove from waitlist'
@@ -299,7 +299,7 @@ export class EmailService {
     try {
       const validated = sendEmailSchema.parse(params);
       return await EmailRepository.sendEmail(validated);
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.name === 'ZodError') {
         emailLogger.error(
           { error: error.message, to: params.to },
@@ -354,7 +354,7 @@ export class EmailService {
       );
 
       return await EmailRepository.sendBatchEmails(validatedEmails);
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.name === 'ZodError') {
         emailLogger.error(
           { error: error.message, count: emails.length },

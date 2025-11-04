@@ -92,7 +92,7 @@ export const analyticsConfigSchema = z.object({
 /**
  * Validate event properties based on event name
  */
-export function validateEventProperties(eventName: string, properties: any): any {
+export function validateEventProperties(eventName: string, properties: unknown): unknown {
   // For now, use base validation
   // Can be extended with event-specific validation
   return baseEventPropertiesSchema.parse(properties);
