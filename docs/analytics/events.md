@@ -617,7 +617,7 @@ export function useAnalytics() {
 ### 4. Use in Component
 
 ```typescript
-import { useAnalytics } from '@/lib/analytics/server';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 function MyComponent() {
   const analytics = useAnalytics();
