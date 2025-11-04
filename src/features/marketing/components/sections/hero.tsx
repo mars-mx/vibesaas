@@ -13,10 +13,16 @@ import { HeroTitle, AnimatedDiv, scaleInVariants } from "@/components/ui/motion"
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { useUser } from "@clerk/nextjs";
 import { useRef } from "react";
+import { useAnalytics } from "@/lib/analytics";
 
 
 export const HeroSection = memo(function HeroSection() {
   const { isSignedIn } = useUser();
+  const analytics = useAnalytics();
+
+  const handleCTAClick = () => {
+    analytics.trackHeroCTAClick(isSignedIn ? "Dashboard" : "Get Started Free");
+  };
 
   return (
     <>
@@ -67,7 +73,10 @@ export const HeroSection = memo(function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
               >
                 <Button size="lg" asChild>
-                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}>
+                  <Link
+                    href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}
+                    onClick={handleCTAClick}
+                  >
                     {isSignedIn ? "Dashboard" : "Get Started Free"}
                   </Link>
                 </Button>

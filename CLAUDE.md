@@ -238,6 +238,86 @@ await resend.contacts.create({
 
 For complete setup instructions, domain verification, email templates, and waitlist flows, see [Email Setup Guide](./docs/email/setup.md).
 
+### PostHog Analytics
+
+This project uses **PostHog** for privacy-friendly product analytics, feature flags, and session replay. PostHog is already installed (`posthog-js@1.x.x`, `posthog-node@4.x.x`).
+
+**Key Features:**
+- Product analytics and event tracking
+- User identification and properties
+- Feature flags (optional)
+- Session replay with privacy masking
+- Real-time event streaming
+- GDPR-compliant (EU hosting available)
+
+**Configuration:**
+```bash
+# .env.local
+POSTHOG_ACTIVATED=true  # Master switch to enable/disable analytics
+NEXT_PUBLIC_POSTHOG_API_KEY=phc_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com  # or https://eu.posthog.com
+POSTHOG_API_KEY_SERVER=phx_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Privacy Settings (Optional)
+NEXT_PUBLIC_POSTHOG_ENABLE_SESSION_REPLAY=false
+NEXT_PUBLIC_POSTHOG_DISABLE_COOKIE=false  # true for cookieless mode
+```
+
+**Quick Start - Client-Side:**
+```typescript
+import { useAnalytics } from '@/lib/analytics';
+
+function MyComponent() {
+  const analytics = useAnalytics();
+
+  const handleClick = () => {
+    analytics.trackCTAClick('hero_section', 'Get Started Free');
+  };
+
+  return <button onClick={handleClick}>Get Started</button>;
+}
+```
+
+**Quick Start - Server-Side:**
+```typescript
+import { ServerAnalyticsService } from '@/lib/analytics';
+
+// In API route or Server Action
+await ServerAnalyticsService.trackSignUp(userId, email);
+```
+
+**Available Tracking Methods:**
+```typescript
+// Marketing
+analytics.trackCTAClick(location, text);
+analytics.trackPricingView(plan);
+analytics.trackWaitlistJoin(email);
+
+// Authentication
+analytics.trackSignIn(method);
+analytics.trackSignOut();
+
+// Dashboard
+analytics.trackDashboardView();
+analytics.trackFeatureUsed(featureName);
+
+// Custom events
+analytics.track('custom_event', { prop: 'value' });
+```
+
+**Architecture:**
+- **Client-side tracking**: User interactions, page views, real-time events
+- **Server-side tracking**: Authentication events (via Clerk webhooks), payment events (via Polar webhooks)
+- **Provider integration**: Automatic user identification from Clerk
+- **Auto page tracking**: Built-in page view tracking on route changes
+- **Privacy-first**: Activation flag, cookieless mode, session masking
+
+**Complete Documentation:**
+- [Setup Guide](./docs/analytics/setup.md) - Installation and configuration
+- [Events Catalog](./docs/analytics/events.md) - All tracked events and properties
+- [Privacy Guide](./docs/analytics/privacy.md) - GDPR compliance and consent
+- [Best Practices](./docs/analytics/best-practices.md) - Performance and patterns
+
 ### Environment Variables
 Create `.env.local` with required variables for Convex, Resend (email), and app configuration. Polar tokens are set via Convex environment variables.
 

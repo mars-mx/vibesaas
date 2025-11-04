@@ -15,9 +15,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useUser } from "@clerk/nextjs";
+import { useAnalytics } from "@/lib/analytics";
 
 export function PricingSection() {
   const { isSignedIn } = useUser();
+  const analytics = useAnalytics();
+
+  const handlePricingClick = (plan: string) => {
+    analytics.trackCTAClick('pricing_section', isSignedIn ? 'Dashboard' : 'Get Started', {
+      plan,
+      section: 'pricing',
+    });
+  };
   return (
     <section id="pricing" className="relative py-24 sm:py-32 bg-gradient-to-b from-background via-background/95 to-background">
       <Container>
@@ -71,7 +80,10 @@ export function PricingSection() {
 
               <CardFooter className="border-t border-border/50 pt-4 pb-5 mt-auto">
                 <Button variant="outline" className="w-full text-sm" asChild>
-                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}>
+                  <Link
+                    href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}
+                    onClick={() => handlePricingClick('Starter')}
+                  >
                     {isSignedIn ? "Dashboard" : "Get Started"}
                   </Link>
                 </Button>
@@ -127,7 +139,11 @@ export function PricingSection() {
 
               <CardFooter className="flex flex-col gap-2 border-t border-border/50 pt-4 pb-5">
                 <Button className="w-full text-sm font-semibold shadow-sm hover:shadow-md transition-shadow" asChild>
-                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")} className="group">
+                  <Link
+                    href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}
+                    className="group"
+                    onClick={() => handlePricingClick('Pro')}
+                  >
                     <span className="inline-flex items-center">
                       {isSignedIn ? "Dashboard" : "Get Started Free"}
                       <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -179,7 +195,10 @@ export function PricingSection() {
 
               <CardFooter className="border-t border-border/50 pt-4 pb-5 mt-auto">
                 <Button variant="outline" className="w-full text-sm" asChild>
-                  <Link href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}>
+                  <Link
+                    href={isSignedIn ? "/dashboard" : (process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/sign-in")}
+                    onClick={() => handlePricingClick('Enterprise')}
+                  >
                     {isSignedIn ? "Dashboard" : "Get Started"}
                   </Link>
                 </Button>
