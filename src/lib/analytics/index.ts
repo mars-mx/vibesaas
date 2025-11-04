@@ -1,16 +1,13 @@
 /**
- * Analytics Module
+ * Analytics Module - Client-Side Only
  *
- * Main exports for PostHog analytics integration.
+ * Main exports for PostHog analytics integration (client-side).
+ * For server-side analytics, import from '@/lib/analytics/server'
  */
 
 // Client-side exports
 export { AnalyticsService } from './service';
 export { getPostHog, initPostHog, isAnalyticsEnabled } from './client';
-
-// Server-side exports
-export { ServerAnalyticsService } from './server-service';
-export { posthogServer, isServerAnalyticsEnabled, flushPostHog } from './server-client';
 
 // Hooks
 export { useAnalytics } from './hooks/use-analytics';

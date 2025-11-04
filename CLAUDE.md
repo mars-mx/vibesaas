@@ -280,7 +280,7 @@ function MyComponent() {
 
 **Quick Start - Server-Side:**
 ```typescript
-import { ServerAnalyticsService } from '@/lib/analytics';
+import { ServerAnalyticsService } from '@/lib/analytics/server';
 
 // In API route or Server Action
 await ServerAnalyticsService.trackSignUp(userId, email);

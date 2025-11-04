@@ -111,6 +111,25 @@ export default function RootLayout({ children }) {
 - Tracks page views on route changes
 - Resets session on sign out
 
+### 4. Import Paths
+
+**IMPORTANT:** Use the correct import path based on where you're tracking:
+
+**Client-Side (Components, Hooks):**
+```typescript
+import { useAnalytics } from '@/lib/analytics';
+```
+
+**Server-Side (API Routes, Server Actions, Webhooks):**
+```typescript
+import { ServerAnalyticsService } from '@/lib/analytics/server';
+```
+
+**Why separate imports?**
+- Client imports are safe for browser bundles
+- Server imports include Node.js-only code (posthog-node)
+- Mixing them causes build errors
+
 ## Verification
 
 ### 1. Check Analytics Initialization
