@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { addToWaitlistAction, removeFromWaitlistAction } from '@/lib/actions/email.actions';
+import { useAnalytics } from '@/lib/analytics/hooks/use-analytics';
 
 interface WaitlistSignupProps {
   email: string;
@@ -23,6 +24,7 @@ interface WaitlistSignupProps {
 
 export function WaitlistSignup({ email, isInWaitlist: initialIsInWaitlist }: WaitlistSignupProps) {
   const router = useRouter();
+  const analytics = useAnalytics();
   const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -38,6 +40,8 @@ export function WaitlistSignup({ email, isInWaitlist: initialIsInWaitlist }: Wai
       const result = await addToWaitlistAction();
 
       if (result.success) {
+        // Track waitlist join event
+        analytics.trackWaitlistJoin(email);
         // Fire confetti celebration
         const duration = 3 * 1000;
         const animationEnd = Date.now() + duration;
