@@ -31,7 +31,7 @@
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.540.0",
     "motion": "^12.23.24",
-    "next": "15.4.7",
+    "next": "15.4.10",
     "pino": "^9.9.0",
     "pino-pretty": "^13.1.1",
     "react": "19.1.0",
